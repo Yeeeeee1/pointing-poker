@@ -1,9 +1,5 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from "react";
 
-const ErrorPage = (): ReactElement => {
-    return (
-        <div>404 is not found</div>
-    );
-}
+const ErrorPage = (): ReactElement => <div>404 is not found</div>;
 
 export default ErrorPage;
