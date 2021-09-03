@@ -1,7 +1,6 @@
 import MainPage from "../components/MainPage/Main";
 import LobbyPage from "../components/LobbyPage/LobbyPage";
 import GamePage from "../components/GamePage/GamePage";
-import SettingsPage from "../components/SettingsPage/SettingsPage";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
 
 export const routes = [
@@ -21,12 +20,6 @@ export const routes = [
         path: "/game",
         name: "Game",
         component: GamePage,
-        exact: true
-    },
-    {
-        path: "/settings",
-        name: "Settings",
-        component: SettingsPage,
         exact: true
     },
     {

@@ -5,7 +5,7 @@ function App() {
     return <div>
         <Switch>
             {routes.map(({path, component, exact}) => (
-                <Route key={path} path={path} component={component} exact={exact} />
+                    <Route key={path} path={path} component={component} exact={exact} />
             ))}
         </Switch>
     </div>;
