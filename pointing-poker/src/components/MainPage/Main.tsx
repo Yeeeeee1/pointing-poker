@@ -1,9 +1,5 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from "react";
 
-const MainPage = (): ReactElement => {
-    return (
-        <div>Main Page</div>
-    );
-}
+const MainPage = (): ReactElement => <div>Main Page</div>;
 
 export default MainPage;

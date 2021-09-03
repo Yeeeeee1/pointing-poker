@@ -1,9 +1,5 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from "react";
 
-const LobbyPage = (): ReactElement => {
-    return (
-        <div>Lobby Page</div>
-    );
-}
+const LobbyPage = (): ReactElement => <div>Lobby Page</div>;
 
 export default LobbyPage;
