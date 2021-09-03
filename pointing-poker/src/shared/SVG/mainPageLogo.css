@@ -1,0 +1,25 @@
+.mainPageLogo {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.line, .card-part, .text {
+    transition: 0.3s;
+}
+
+.line {
+    transform-origin: center;
+}
+
+.mainPageLogo:hover .line {
+    transform: rotate(15.3deg) translateY(-0.75rem);
+}
+
+.mainPageLogo:hover .card-part {
+    transform: scale(1.1);
+}
+
+.mainPageLogo:hover .text {
+    transform: translateX(0.3rem);
+}
