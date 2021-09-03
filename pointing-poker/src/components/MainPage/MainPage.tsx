@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import "./mainPage.scss";
-import MainPageLogo from "../../shared/SVG/MainPageLogo";
+import MainPageLogo from "../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 
 const MainPage = (): ReactElement => (
   <div className="mainPage">
@@ -21,7 +21,7 @@ const MainPage = (): ReactElement => (
     <div className="mainPageSection">
       <h2 className="mainPageTitle">OR:</h2>
       <p>
-        Connect to lobby by <a href="##">URL</a>:
+        Connect to lobby by <strong className="mainPageBoldText">URL</strong>:
       </p>
       <div className="mainPageControlsWrapper">
         <Form>

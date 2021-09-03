@@ -1,4 +1,4 @@
-import MainPage from "../components/MainPage/Main";
+import MainPage from "../components/MainPage/MainPage";
 import LobbyPage from "../components/LobbyPage/LobbyPage";
 import GamePage from "../components/GamePage/GamePage";
 import ErrorPage from "../components/ErrorPage/ErrorPage";

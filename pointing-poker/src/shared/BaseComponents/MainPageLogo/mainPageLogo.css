@@ -14,10 +14,11 @@
 
 .mainPageLogo:hover .line {
     transform: rotate(15.3deg) translateY(-0.75rem);
+    stroke-width: 3;
 }
 
 .mainPageLogo:hover .card-part {
-    transform: scale(1.1);
+    transform: scale(1.06);
 }
 
 .mainPageLogo:hover .text {
