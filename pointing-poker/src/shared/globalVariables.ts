@@ -1,29 +1,36 @@
-import MainPage from "../components/MainPage/MainPage";
-import LobbyPage from "../components/LobbyPage/LobbyPage";
-import GamePage from "../components/GamePage/GamePage";
-import ErrorPage from "../components/ErrorPage/ErrorPage";
+import MainPage from "../components/Pages/MainPage/Main";
+import LobbyPage from "../components/Pages/LobbyPage/LobbyPage";
+import GamePage from "../components/Pages/GamePage/GamePage";
+import ErrorPage from "../components/Pages/ErrorPage/ErrorPage";
+
+export enum RoutePath {
+  ROOT = "/",
+  GAME = "/game",
+  LOBBY = "/lobby",
+  ERROR = "/error",
+}
 
 const routes = [
   {
-    path: "/",
+    path: RoutePath.ROOT,
     name: "Main",
     component: MainPage,
     exact: true,
   },
   {
-    path: "/lobby",
+    path: RoutePath.LOBBY,
     name: "Lobby",
     component: LobbyPage,
     exact: true,
   },
   {
-    path: "/game",
+    path: RoutePath.GAME,
     name: "Game",
     component: GamePage,
     exact: true,
   },
   {
-    path: "*",
+    path: RoutePath.ERROR,
     name: "Error",
     component: ErrorPage,
     exact: true,
