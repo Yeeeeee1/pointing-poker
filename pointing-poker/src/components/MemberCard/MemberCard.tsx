@@ -1,12 +1,7 @@
 import React, { ReactElement } from "react";
 import "./memberCard.scss";
 import createDefaultCardImage from "../../shared/helperFunctions/createDefaultCardImage";
-
-export interface IMemberCard {
-  name: string;
-  position?: string;
-  logo?: string;
-}
+import { IMemberCard } from "../../shared/interfaces/models";
 
 const MemberCard = (cardInfo: IMemberCard): ReactElement => {
   const { name, position, logo } = cardInfo;

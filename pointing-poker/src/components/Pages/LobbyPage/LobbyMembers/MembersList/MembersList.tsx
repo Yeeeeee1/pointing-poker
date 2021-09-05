@@ -1,17 +1,7 @@
 import React, { ReactElement } from "react";
 import "./membersList.scss";
 import Member from "./Member/Member";
-
-interface IMember {
-  id: number;
-  name: string;
-  position?: string;
-  logo?: string;
-}
-
-interface IMembersListProps {
-  members: IMember[];
-}
+import { IMembersListProps } from "../../../../../shared/interfaces/models";
 
 const MembersList = ({ members }: IMembersListProps): ReactElement => (
   <ul className="members-list">

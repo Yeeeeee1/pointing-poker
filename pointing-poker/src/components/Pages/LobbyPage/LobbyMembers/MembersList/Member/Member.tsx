@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
-import MemberCard, { IMemberCard } from "../../../../../MemberCard/MemberCard";
+import MemberCard from "../../../../../MemberCard/MemberCard";
 import "./member.scss";
+import { IMemberCard } from "../../../../../../shared/interfaces/models";
 
 const Member = ({ name, position, logo }: IMemberCard): ReactElement => (
   <div className="member">
