@@ -3,7 +3,7 @@ import "./mainPageLogo.css";
 
 const MainPageLogo = (): ReactElement => (
   <svg
-    className="mainPageLogo"
+    className="main-page-logo"
     width="551"
     height="149"
     viewBox="0 0 551 149"

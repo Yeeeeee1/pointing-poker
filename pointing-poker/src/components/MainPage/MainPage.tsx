@@ -4,31 +4,32 @@ import "./mainPage.scss";
 import MainPageLogo from "../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 
 const MainPage = (): ReactElement => (
-  <div className="mainPage">
+  <div className="main-page">
     <MainPageLogo />
-    <div className="mainPageSection">
-      <h2 className="mainPageTitle">Start your planning:</h2>
-      <div className="mainPageControlsWrapper">
+    <div className="main-page__section">
+      <h2 className="main-page__title">Start your planning:</h2>
+      <div className="main-page__controls-wrapper">
         <p>Create session: </p>
         <Button
-          className="mainPageButton"
+          className="main-page__button"
           as="input"
           type="button"
           value="Start new game"
         />
       </div>
     </div>
-    <div className="mainPageSection">
-      <h2 className="mainPageTitle">OR:</h2>
+    <div className="main-page__section">
+      <h2 className="main-page__title">OR:</h2>
       <p>
-        Connect to lobby by <strong className="mainPageBoldText">URL</strong>:
+        Connect to lobby by{" "}
+        <strong className="main-page__text_bold">URL</strong>:
       </p>
-      <div className="mainPageControlsWrapper">
+      <div className="main-page__controls-wrapper">
         <Form>
           <Row>
-            <Col xs="auto" className="my-1 mainPageCol">
+            <Col xs="auto" className="my-1 main-page__col">
               <Form.Label
-                className="me-sm-2"
+                className="me-sm-2 me-1"
                 htmlFor="inlineFormCustomSelect"
                 visuallyHidden
               >
@@ -36,12 +37,12 @@ const MainPage = (): ReactElement => (
               </Form.Label>
               <Form.Control
                 placeholder="Write lobby URL"
-                className="me-sm-2 mainPageInput"
+                className="me-sm-2 me-1 main-page__input"
                 id="inlineFormCustomSelect"
               />
             </Col>
-            <Col xs="auto" className="my-1 mainPageCol">
-              <Button className="mainPageButton" type="button">
+            <Col xs="auto" className="my-1 main-page__col">
+              <Button className="main-page__button" type="button">
                 Connect
               </Button>
             </Col>

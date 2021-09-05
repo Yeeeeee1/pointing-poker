@@ -5,7 +5,7 @@ import "./App.scss";
 
 function App(): ReactElement {
   return (
-    <div className="appContainer">
+    <div className="app-container">
       <Switch>
         {routes.map(({ path, component, exact }) => (
           <Route key={path} path={path} component={component} exact={exact} />
