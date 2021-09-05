@@ -1,4 +1,4 @@
-import MainPage from "../components/Pages/MainPage/Main";
+import MainPage from "../components/Pages/MainPage/MainPage";
 import LobbyPage from "../components/Pages/LobbyPage/LobbyPage";
 import GamePage from "../components/Pages/GamePage/GamePage";
 import ErrorPage from "../components/Pages/ErrorPage/ErrorPage";
@@ -7,7 +7,7 @@ export enum RoutePath {
   ROOT = "/",
   GAME = "/game",
   LOBBY = "/lobby",
-  ERROR = "/error",
+  ERROR = "*",
 }
 
 const routes = [
