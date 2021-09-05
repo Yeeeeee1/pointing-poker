@@ -1,0 +1,39 @@
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  background-color: #2B3A67;
+  z-index: 99;
+  margin-bottom: 3.33rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5rem;
+    bottom: 0;
+    background-color: #66999B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &__logo {
+    position: relative;
+    z-index: 9;
+    top: 1.1rem;
+
+    &_active {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  &__chat-button {
+    background-color: transparent;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
