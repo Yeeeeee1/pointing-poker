@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import "./mainPage.scss";
-import MainPageLogo from "../../shared/BaseComponents/MainPageLogo/MainPageLogo";
+import MainPageLogo from "../../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 
 const MainPage = (): ReactElement => (
   <div className="main-page">
