@@ -1,11 +1,12 @@
 import React, { ReactElement } from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row } from "react-bootstrap";
 import "./mainPage.scss";
 import MainPageLogo from "../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 
 const MainPage = (): ReactElement => (
   <div className="main-page">
     <MainPageLogo />
+    <h2>asd</h2>
     <div className="main-page__section">
       <h2 className="main-page__title">Start your planning:</h2>
       <div className="main-page__controls-wrapper">
@@ -28,13 +29,6 @@ const MainPage = (): ReactElement => (
         <Form>
           <Row>
             <Col xs="auto" className="my-1 main-page__col">
-              <Form.Label
-                className="me-sm-2 me-1"
-                htmlFor="inlineFormCustomSelect"
-                visuallyHidden
-              >
-                Preference
-              </Form.Label>
               <Form.Control
                 placeholder="Write lobby URL"
                 className="me-sm-2 me-1 main-page__input"
