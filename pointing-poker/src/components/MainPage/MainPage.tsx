@@ -6,7 +6,6 @@ import MainPageLogo from "../../shared/BaseComponents/MainPageLogo/MainPageLogo"
 const MainPage = (): ReactElement => (
   <div className="main-page">
     <MainPageLogo />
-    <h2>asd</h2>
     <div className="main-page__section">
       <h2 className="main-page__title">Start your planning:</h2>
       <div className="main-page__controls-wrapper">
