@@ -2,25 +2,29 @@ import React, { ReactElement } from "react";
 import "./memberCard.scss";
 import createDefaultCardImage from "../../shared/helperFunctions/createDefaultCardImage";
 
-const MemberCard = (): ReactElement => {
-  const name = "Alex Ggg";
-  const position = "lead software engineer";
+export interface IMemberCard {
+  name: string;
+  position?: string;
+  logo?: string;
+}
+
+const MemberCard = (cardInfo: IMemberCard): ReactElement => {
+  const { name, position, logo } = cardInfo;
 
   return (
     <figure className="member-card">
-      {true ? (
+      {!logo ? (
         <p className="member-card__image member-card__image_default">
           {createDefaultCardImage(name)}
         </p>
       ) : (
-        <img className="member-card__image" src="" alt="" />
+        <img className="member-card__image" src={logo} alt="" />
       )}
       <figcaption>
         <h6 className="member-card__title">{name}</h6>
-        <p className="member-card__position">{position}</p>
+        {position && <p className="member-card__position">{position}</p>}
       </figcaption>
     </figure>
   );
 };
-
 export default MemberCard;
