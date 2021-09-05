@@ -1,7 +1,7 @@
-import MainPage from "../components/MainPage/Main";
-import LobbyPage from "../components/LobbyPage/LobbyPage";
-import GamePage from "../components/GamePage/GamePage";
-import ErrorPage from "../components/ErrorPage/ErrorPage";
+import MainPage from "../components/Pages/MainPage/Main";
+import LobbyPage from "../components/Pages/LobbyPage/LobbyPage";
+import GamePage from "../components/Pages/GamePage/GamePage";
+import ErrorPage from "../components/Pages/ErrorPage/ErrorPage";
 
 const routes = [
   {
