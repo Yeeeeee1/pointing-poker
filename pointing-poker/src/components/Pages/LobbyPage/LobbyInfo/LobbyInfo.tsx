@@ -19,7 +19,7 @@ const LobbyInfo = (): ReactElement => {
       <LobbyHeader />
       <div>
         <h5 className="lobby-info__title">Scram master:</h5>
-        <MemberCard />
+        <MemberCard name="Alex" position="lead software engineer" />
         <p className="lobby-info__title">Link to lobby:</p>
         <div className="lobby-info__copy-link">
           <input
