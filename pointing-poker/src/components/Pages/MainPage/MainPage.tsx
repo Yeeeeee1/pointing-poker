@@ -2,10 +2,12 @@ import React, { ReactElement } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import "./mainPage.scss";
 import MainPageLogo from "../../../shared/BaseComponents/MainPageLogo/MainPageLogo";
+import AuthPopup from "../../Popup/AuthPopup/AuthPopup";
 
 const MainPage = (): ReactElement => (
   <div className="main-page">
     <MainPageLogo />
+    <AuthPopup />
     <div className="main-page__section">
       <h2 className="main-page__title">Start your planning:</h2>
       <div className="main-page__controls-wrapper">
