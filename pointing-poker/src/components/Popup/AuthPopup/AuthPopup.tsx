@@ -2,10 +2,14 @@ import React, { ChangeEvent, ReactElement, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
-import { AuthFormData, UserAvatar } from "../../../shared/interfaces/models";
+import {
+  AuthFormData,
+  IAuthPopup,
+  UserAvatar,
+} from "../../../shared/interfaces/models";
 import { initFormValue } from "../../../shared/globalVariables";
 
-const AuthPopup = (): ReactElement => {
+const AuthPopup = ({ closePopup }: IAuthPopup): ReactElement => {
   const [formData, updateFormData] = useState<AuthFormData>(initFormValue);
   const [isObserver, toggleIsObserver] = useState(false);
   const [userAvatar, updateUserAvatar] = useState<UserAvatar>(null);
@@ -96,7 +100,11 @@ const AuthPopup = (): ReactElement => {
             <Button variant="primary" type="submit">
               Confirm
             </Button>
-            <Button variant="light" type="button">
+            <Button
+              variant="light"
+              type="button"
+              onClick={() => closePopup(false)}
+            >
               Cancel
             </Button>
           </Form.Group>

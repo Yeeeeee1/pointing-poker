@@ -17,6 +17,10 @@ export interface IIssuesListProps {
 export type UserAvatar = string | ArrayBuffer | null;
 export type AuthFormData = Record<string, string>;
 
+export interface IAuthPopup {
+  closePopup: (isOpen: boolean) => void;
+}
+
 export interface IIssueProps {
   issue: IIssue;
 }
