@@ -1,0 +1,19 @@
+.logo {
+  &__letter {
+    transform-origin: center;
+  }
+
+  &__bg, &__letter {
+    transition: .3s;
+  }
+
+  &:hover {
+    .logo__bg {
+      fill: rgb(233 166 90);
+    }
+
+    .logo__letter {
+      transform: scale(1.085) translateY(0.2rem);
+    }
+  }
+}
