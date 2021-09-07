@@ -1,23 +1,46 @@
-import React, { ChangeEvent, ReactElement, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { ChangeEvent, FormEvent, ReactElement, useState } from "react";
+import { Alert, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
-import { AuthFormData, UserAvatar } from "../../../shared/interfaces/models";
-import { initFormValue } from "../../../shared/globalVariables";
+import {
+  AuthFormData,
+  AuthFormErrors,
+  UserAvatar,
+} from "../../../shared/interfaces/models";
+import {
+  initAuthFormErrors,
+  initFormValue,
+} from "../../../shared/globalVariables";
 import { AuthReducer } from "../../../redux/types/auth";
 import toggleAuthMode from "../../../redux/store/action-creators/auth";
 import getAuthState from "../../../redux/store/selectors";
+import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
 const AuthPopup = (): ReactElement => {
   const dispatch = useDispatch();
   const { isOpenAuthPopup } = useSelector(getAuthState);
-  const [formData, updateFormData] = useState<AuthFormData>(initFormValue);
+  const [formFields, updateFormFields] = useState<AuthFormData>(initFormValue);
   const [isObserver, toggleIsObserver] = useState(false);
   const [userAvatar, updateUserAvatar] = useState<UserAvatar>(null);
+  const [inputErrors, updateInputErrors] =
+    useState<AuthFormErrors>(initAuthFormErrors);
+
+  const checkIsValidForm = (): boolean =>
+    !(
+      formFields.firstName &&
+      Object.values(inputErrors).every((input) => input === false)
+    );
 
   const handleInputForm = ({ name, value }: HTMLInputElement): void => {
-    updateFormData((prevState) => ({
+    const validationResult = validateEnteredValue(value);
+
+    updateInputErrors((prevState) => ({
+      ...prevState,
+      [name]: !validationResult,
+    }));
+
+    updateFormFields((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -45,6 +68,16 @@ const AuthPopup = (): ReactElement => {
     dispatch(toggleAuthMode());
   };
 
+  const submitForm = (): void => {
+    const formData = {
+      ...formFields,
+      userAvatar,
+      isObserver,
+    };
+
+    closePopup();
+  };
+
   return (
     <>
       {isOpenAuthPopup && (
@@ -53,11 +86,15 @@ const AuthPopup = (): ReactElement => {
             <h2 className={classes.authPopupTitle}>Connect to lobby</h2>
             <Form>
               <Form.Group className="mb-3" controlId="firstName">
-                <Form.Label>Your first name:</Form.Label>
+                <Form.Label>* Your first name:</Form.Label>
                 <Form.Control
+                  className={
+                    inputErrors.firstName && classes.authPopupInputNotValid
+                  }
+                  required
                   type="text"
                   name="firstName"
-                  value={formData.firstName}
+                  value={formFields.firstName}
                   onInput={({ target }) =>
                     handleInputForm(target as HTMLInputElement)
                   }
@@ -67,9 +104,12 @@ const AuthPopup = (): ReactElement => {
               <Form.Group className="mb-3" controlId="lastName">
                 <Form.Label>Your last name:</Form.Label>
                 <Form.Control
+                  className={
+                    inputErrors.lastName && classes.authPopupInputNotValid
+                  }
                   type="text"
                   name="lastName"
-                  value={formData.lastName}
+                  value={formFields.lastName}
                   onInput={({ target }) =>
                     handleInputForm(target as HTMLInputElement)
                   }
@@ -79,9 +119,12 @@ const AuthPopup = (): ReactElement => {
               <Form.Group className="mb-3" controlId="jobPosition">
                 <Form.Label>Your job position:</Form.Label>
                 <Form.Control
+                  className={
+                    inputErrors.jobPosition && classes.authPopupInputNotValid
+                  }
                   type="text"
                   name="jobPosition"
-                  value={formData.jobPosition}
+                  value={formFields.jobPosition}
                   onInput={({ target }) =>
                     handleInputForm(target as HTMLInputElement)
                   }
@@ -105,7 +148,12 @@ const AuthPopup = (): ReactElement => {
               </Form.Group>
 
               <Form.Group className={classes.authPopupButtons}>
-                <Button variant="primary" type="submit">
+                <Button
+                  disabled={checkIsValidForm()}
+                  variant="primary"
+                  onClick={() => submitForm()}
+                  type="button"
+                >
                   Confirm
                 </Button>
                 <Button

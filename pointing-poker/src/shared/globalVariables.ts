@@ -16,6 +16,12 @@ export const initFormValue = {
   jobPosition: "",
 };
 
+export const initAuthFormErrors = {
+  firstName: false,
+  lastName: false,
+  jobPosition: false,
+};
+
 const routes = [
   {
     path: RoutePath.ROOT,
