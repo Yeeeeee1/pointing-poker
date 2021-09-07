@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, ReactElement, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
 import {
@@ -18,6 +19,7 @@ import getAuthState from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
 const AuthPopup = (): ReactElement => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isOpenAuthPopup } = useSelector(getAuthState);
   const [formFields, updateFormFields] = useState<AuthFormData>(initFormValue);
@@ -74,8 +76,11 @@ const AuthPopup = (): ReactElement => {
       userAvatar,
       isObserver,
     };
+    // TODO: implement request
 
     closePopup();
+
+    history.push("/lobby");
   };
 
   return (
