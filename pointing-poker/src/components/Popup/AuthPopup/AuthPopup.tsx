@@ -1,15 +1,17 @@
 import React, { ChangeEvent, ReactElement, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
-import {
-  AuthFormData,
-  IAuthPopup,
-  UserAvatar,
-} from "../../../shared/interfaces/models";
+import { AuthFormData, UserAvatar } from "../../../shared/interfaces/models";
 import { initFormValue } from "../../../shared/globalVariables";
+import { AuthReducer } from "../../../redux/types/auth";
+import toggleAuthMode from "../../../redux/store/action-creators/auth";
+import getAuthState from "../../../redux/store/selectors";
 
-const AuthPopup = ({ closePopup }: IAuthPopup): ReactElement => {
+const AuthPopup = (): ReactElement => {
+  const dispatch = useDispatch();
+  const { isOpenAuthPopup } = useSelector(getAuthState);
   const [formData, updateFormData] = useState<AuthFormData>(initFormValue);
   const [isObserver, toggleIsObserver] = useState(false);
   const [userAvatar, updateUserAvatar] = useState<UserAvatar>(null);
@@ -39,78 +41,86 @@ const AuthPopup = ({ closePopup }: IAuthPopup): ReactElement => {
     }
   };
 
+  const closePopup = (): void => {
+    dispatch(toggleAuthMode());
+  };
+
   return (
-    <PopupOverlay>
-      <div className={classes.authPopup}>
-        <h2 className={classes.authPopupTitle}>Connect to lobby</h2>
-        <Form>
-          <Form.Group className="mb-3" controlId="firstName">
-            <Form.Label>Your first name:</Form.Label>
-            <Form.Control
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onInput={({ target }) =>
-                handleInputForm(target as HTMLInputElement)
-              }
-            />
-          </Form.Group>
+    <>
+      {isOpenAuthPopup && (
+        <PopupOverlay>
+          <div className={classes.authPopup}>
+            <h2 className={classes.authPopupTitle}>Connect to lobby</h2>
+            <Form>
+              <Form.Group className="mb-3" controlId="firstName">
+                <Form.Label>Your first name:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onInput={({ target }) =>
+                    handleInputForm(target as HTMLInputElement)
+                  }
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="lastName">
-            <Form.Label>Your last name:</Form.Label>
-            <Form.Control
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onInput={({ target }) =>
-                handleInputForm(target as HTMLInputElement)
-              }
-            />
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="lastName">
+                <Form.Label>Your last name:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onInput={({ target }) =>
+                    handleInputForm(target as HTMLInputElement)
+                  }
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="jobPosition">
-            <Form.Label>Your job position:</Form.Label>
-            <Form.Control
-              type="text"
-              name="jobPosition"
-              value={formData.jobPosition}
-              onInput={({ target }) =>
-                handleInputForm(target as HTMLInputElement)
-              }
-            />
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="jobPosition">
+                <Form.Label>Your job position:</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="jobPosition"
+                  value={formData.jobPosition}
+                  onInput={({ target }) =>
+                    handleInputForm(target as HTMLInputElement)
+                  }
+                />
+              </Form.Group>
 
-          <Form.Group controlId="image" className="mb-3">
-            <Form.Label>Image:</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(event) => handleImageChange(event)}
-            />
-          </Form.Group>
+              <Form.Group controlId="image" className="mb-3">
+                <Form.Label>Image:</Form.Label>
+                <Form.Control
+                  type="file"
+                  onChange={(event) => handleImageChange(event)}
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" controlId="isObserver">
-            <Form.Check
-              type="checkbox"
-              label="Connect as observer"
-              onClick={() => toggleIsObserver(!isObserver)}
-            />
-          </Form.Group>
+              <Form.Group className="mb-3" controlId="isObserver">
+                <Form.Check
+                  type="checkbox"
+                  label="Connect as observer"
+                  onClick={() => toggleIsObserver(!isObserver)}
+                />
+              </Form.Group>
 
-          <Form.Group className={classes.authPopupButtons}>
-            <Button variant="primary" type="submit">
-              Confirm
-            </Button>
-            <Button
-              variant="light"
-              type="button"
-              onClick={() => closePopup(false)}
-            >
-              Cancel
-            </Button>
-          </Form.Group>
-        </Form>
-      </div>
-    </PopupOverlay>
+              <Form.Group className={classes.authPopupButtons}>
+                <Button variant="primary" type="submit">
+                  Confirm
+                </Button>
+                <Button
+                  variant="light"
+                  type="button"
+                  onClick={() => closePopup()}
+                >
+                  Cancel
+                </Button>
+              </Form.Group>
+            </Form>
+          </div>
+        </PopupOverlay>
+      )}
+    </>
   );
 };
 

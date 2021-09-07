@@ -1,15 +1,21 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
 import "./mainPage.scss";
+import { useDispatch } from "react-redux";
 import MainPageLogo from "../../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 import AuthPopup from "../../Popup/AuthPopup/AuthPopup";
+import toggleAuthMode from "../../../redux/store/action-creators/auth";
 
 const MainPage = (): ReactElement => {
-  const [isOpenAuthPopup, toggleIsOpenAuthPopup] = useState(false);
+  const dispatch = useDispatch();
+
+  const openPopup = (): void => {
+    dispatch(toggleAuthMode());
+  };
 
   return (
     <>
-      {isOpenAuthPopup && <AuthPopup closePopup={toggleIsOpenAuthPopup} />}
+      <AuthPopup />
       <div className="main-page">
         <MainPageLogo />
         <div className="main-page__section">
@@ -17,7 +23,7 @@ const MainPage = (): ReactElement => {
           <div className="main-page__controls-wrapper">
             <p>Create session: </p>
             <Button
-              onClick={() => toggleIsOpenAuthPopup(true)}
+              onClick={() => openPopup()}
               className="main-page__button"
               as="input"
               type="button"
