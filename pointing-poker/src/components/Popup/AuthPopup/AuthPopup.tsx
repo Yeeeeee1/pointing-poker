@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FormEvent, ReactElement, useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
+import React, { ChangeEvent, ReactElement, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import classes from "./AuthPopup.module.scss";
@@ -13,7 +13,6 @@ import {
   initAuthFormErrors,
   initFormValue,
 } from "../../../shared/globalVariables";
-import { AuthReducer } from "../../../redux/types/auth";
 import toggleAuthMode from "../../../redux/store/action-creators/auth";
 import getAuthState from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
@@ -35,7 +34,10 @@ const AuthPopup = (): ReactElement => {
     );
 
   const handleInputForm = ({ name, value }: HTMLInputElement): void => {
-    const validationResult = validateEnteredValue(value);
+    const validationResult = validateEnteredValue(
+      value,
+      name === "firstName" && true
+    );
 
     updateInputErrors((prevState) => ({
       ...prevState,
@@ -156,16 +158,12 @@ const AuthPopup = (): ReactElement => {
                 <Button
                   disabled={checkIsValidForm()}
                   variant="primary"
-                  onClick={() => submitForm()}
+                  onClick={submitForm}
                   type="button"
                 >
                   Confirm
                 </Button>
-                <Button
-                  variant="light"
-                  type="button"
-                  onClick={() => closePopup()}
-                >
+                <Button variant="light" type="button" onClick={closePopup}>
                   Cancel
                 </Button>
               </Form.Group>

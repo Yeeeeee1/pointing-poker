@@ -23,7 +23,7 @@ const MainPage = (): ReactElement => {
           <div className="main-page__controls-wrapper">
             <p>Create session: </p>
             <Button
-              onClick={() => openPopup()}
+              onClick={openPopup}
               className="main-page__button"
               as="input"
               type="button"
