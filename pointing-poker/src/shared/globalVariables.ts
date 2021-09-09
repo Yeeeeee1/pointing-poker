@@ -10,6 +10,18 @@ export enum RoutePath {
   ERROR = "*",
 }
 
+export const initFormValue = {
+  firstName: "",
+  lastName: "",
+  jobPosition: "",
+};
+
+export const initAuthFormErrors = {
+  firstName: false,
+  lastName: false,
+  jobPosition: false,
+};
+
 const routes = [
   {
     path: RoutePath.ROOT,

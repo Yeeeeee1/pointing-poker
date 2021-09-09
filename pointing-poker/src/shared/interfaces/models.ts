@@ -14,6 +14,10 @@ export interface IIssuesListProps {
   issues: IIssue[];
 }
 
+export type UserAvatar = string | ArrayBuffer | null;
+export type AuthFormData = Record<string, string>;
+export type AuthFormErrors = Record<string, boolean>;
+
 export interface IIssueProps {
   issue: IIssue;
 }
