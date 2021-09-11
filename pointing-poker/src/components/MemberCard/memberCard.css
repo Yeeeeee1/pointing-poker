@@ -1,0 +1,50 @@
+.member-card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-column-gap: 0.56rem;
+          column-gap: 0.56rem;
+  -webkit-box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
+          box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.4rem 0.3rem 0;
+  z-index: 2;
+}
+
+.member-card__image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 0.34rem #fff solid;
+  -webkit-box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3) inset;
+          box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3) inset;
+}
+
+.member-card__image_default {
+  background-color: salmon;
+}
+
+.member-card__title {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.member-card__position {
+  font-size: 0.69rem;
+  font-weight: 400;
+  color: #3a3a3a;
+}
+/*# sourceMappingURL=memberCard.css.map */
