@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import EditImage from "../../../../../assets/images/edit-icon.svg";
 import "./lobbyHeader.scss";
 import hidePartOfText from "../../../../../shared/helperFunctions/hidePartOfText";
+import SettingsIcon from "../../../../../assets/images/settings-icon.png";
 
 import showSettingsAction from "../../../../../redux/store/action-creators/settings";
 
@@ -38,9 +39,18 @@ const LobbyHeader = (): ReactElement => {
       >
         {isEditLobbyName ? <p>save</p> : <img src={EditImage} alt="pencil" />}
       </button>
-      <button onClick={() => showSettings()} type="button">
-        Settings
-      </button>
+      <div
+        onClick={() => showSettings()}
+        onKeyDown={() => null}
+        role="button"
+        tabIndex={0}
+      >
+        <img
+          src={SettingsIcon}
+          className="lobby-header__settings-button"
+          alt="settings-icon"
+        />
+      </div>
     </div>
   );
 };
