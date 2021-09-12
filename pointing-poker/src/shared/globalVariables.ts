@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import MainPage from "../components/Pages/MainPage/MainPage";
 import LobbyPage from "../components/Pages/LobbyPage/LobbyPage";
 import GamePage from "../components/Pages/GamePage/GamePage";
@@ -48,5 +49,7 @@ const routes = [
     exact: true,
   },
 ];
+
+export const socket = io("http://localhost:5000/");
 
 export default routes;

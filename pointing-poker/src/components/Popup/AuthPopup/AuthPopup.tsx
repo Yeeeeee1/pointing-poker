@@ -13,7 +13,9 @@ import {
   initAuthFormErrors,
   initFormValue,
 } from "../../../shared/globalVariables";
-import toggleAuthMode from "../../../redux/store/action-creators/auth";
+import toggleAuthMode, {
+  setFormData,
+} from "../../../redux/store/action-creators/auth";
 import getAuthState from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
@@ -78,7 +80,8 @@ const AuthPopup = (): ReactElement => {
       userAvatar,
       isObserver,
     };
-    // TODO: implement request
+
+    dispatch(setFormData(formData));
 
     closePopup();
 
