@@ -4,23 +4,23 @@ import { useSelector } from "react-redux";
 import LobbyInfo from "./LobbyInfo/LobbyInfo";
 import LobbyMembers from "./LobbyMembers/LobbyMembers";
 import LobbyIssues from "./LobbyIssues/LobbyIssues";
-import { socket } from "../../../shared/globalVariables";
+import { socket, SocketEvent } from "../../../shared/globalVariables";
 import getAuthState from "../../../redux/store/selectors";
 
 const LobbyPage = (): ReactElement => {
   const { formData } = useSelector(getAuthState);
 
   useEffect(() => {
-    socket.emit("join-room", "roomName", formData, () => {
-      console.info("Joined");
+    socket.emit(SocketEvent.JOIN_ROOM, "roomName", formData, () => {
+      console.info("Joined"); // TODO: implement a nice notification
     });
 
-    socket.on("message", (mes: string) => {
-      alert(mes);
+    socket.on(SocketEvent.JOIN_NOTIFY, (notification: string) => {
+      alert(notification); // TODO: implement a nice notification
     });
 
     return () => {
-      socket.emit("leave room", formData!.firstName);
+      socket.emit(SocketEvent.LEAVE_ROOM, formData!.firstName);
     };
   }, []);
 

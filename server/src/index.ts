@@ -3,8 +3,9 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
-import PORT from "./shared/globalVariables";
+import PORT, { SocketEvent } from "./shared/globalVariables";
 import store from "./store/store";
+import excludeUser from "./shared/helperFuntions/helperFunctions";
 
 const logger = getLogger();
 logger.level = "debug";
@@ -20,21 +21,18 @@ const io = new Server(httpServer, {
 app.use(cors());
 
 io.on("connection", (socket: Socket) => {
-  socket.on("join-room", (roomName, person, cb) => {
+  socket.on(SocketEvent.JOIN_ROOM, (roomName, person, cb) => {
     socket.join(roomName);
     cb();
 
-    socket.broadcast.to(roomName).emit("message", `${person.firstName} joined`);
+    socket.broadcast
+      .to(roomName)
+      .emit(SocketEvent.JOIN_NOTIFY, `${person.firstName} joined`);
 
     store.users.push(person);
 
-    socket.on("leave room", (userName) => {
-      const userIndex = store.users.findIndex(
-        (user) => user.firstName === userName
-      );
-
-      store.users.splice(userIndex, 1);
-
+    socket.on(SocketEvent.LEAVE_ROOM, (userName) => {
+      excludeUser(userName);
       socket.leave(roomName);
     });
   });

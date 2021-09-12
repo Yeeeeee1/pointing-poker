@@ -11,6 +11,12 @@ export enum RoutePath {
   ERROR = "*",
 }
 
+export enum SocketEvent {
+  JOIN_ROOM = "join-room",
+  JOIN_NOTIFY = "join-notify",
+  LEAVE_ROOM = "leave-room",
+}
+
 export const initFormValue = {
   firstName: "",
   lastName: "",
