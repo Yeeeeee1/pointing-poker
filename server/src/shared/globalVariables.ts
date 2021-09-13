@@ -5,4 +5,5 @@ export enum SocketEvent {
   JOIN_ROOM = "join-room",
   JOIN_NOTIFY = "join-notify",
   LEAVE_ROOM = "leave-room",
+  UPDATE_USERS_LIST = "update-users-list",
 }

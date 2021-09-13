@@ -1,12 +1,17 @@
 import React, { ReactElement, useRef } from "react";
 import { Button } from "react-bootstrap";
 import "./lobbyInfo.scss";
+import { useSelector } from "react-redux";
 import MemberCard from "../../../MemberCard/MemberCard";
 import LobbyHeader from "./LobbyHeader/LobbyHeader";
+import { getUserState } from "../../../../redux/store/selectors";
 
 const LobbyInfo = (): ReactElement => {
+  const { users } = useSelector(getUserState);
   const inputRef = useRef<any>(null);
   const url = "https://smth-url/asd/asf/sf/asfasfasfasfasfasfasfasfasfas";
+
+  const admin = users.find((user) => user.role === "admin");
 
   const copyURL = (): void => {
     inputRef.current.select();
@@ -19,7 +24,8 @@ const LobbyInfo = (): ReactElement => {
       <LobbyHeader />
       <div>
         <h5 className="lobby-info__title">Scram master:</h5>
-        <MemberCard name="Alex" position="lead software engineer" />
+        TODO: refactor
+        {admin && <MemberCard member={admin} />}
         <p className="lobby-info__title">Link to lobby:</p>
         <div className="lobby-info__copy-link">
           <input
@@ -30,7 +36,7 @@ const LobbyInfo = (): ReactElement => {
           />
           <Button
             className="lobby-info__button"
-            onClick={() => copyURL()}
+            onClick={copyURL}
             variant="primary"
           >
             copy

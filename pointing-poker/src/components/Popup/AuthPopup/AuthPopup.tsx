@@ -16,7 +16,7 @@ import {
 import toggleAuthMode, {
   setFormData,
 } from "../../../redux/store/action-creators/auth";
-import getAuthState from "../../../redux/store/selectors";
+import { getAuthState } from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
 const AuthPopup = (): ReactElement => {

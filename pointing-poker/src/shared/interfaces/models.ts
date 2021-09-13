@@ -1,7 +1,7 @@
+import { User } from "../../redux/types/user";
+
 export interface IMemberCard {
-  name: string;
-  position?: string;
-  logo?: string;
+  member: User;
 }
 
 export interface IIssue {
@@ -24,13 +24,6 @@ export interface IIssueProps {
   issue: IIssue;
 }
 
-export interface IMember {
-  id: number;
-  name: string;
-  position?: string;
-  logo?: string;
-}
-
 export interface IMembersListProps {
-  members: IMember[];
+  members: User[];
 }

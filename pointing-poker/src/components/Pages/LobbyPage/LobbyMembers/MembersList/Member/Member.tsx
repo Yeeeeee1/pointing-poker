@@ -3,9 +3,9 @@ import MemberCard from "../../../../../MemberCard/MemberCard";
 import "./member.scss";
 import { IMemberCard } from "../../../../../../shared/interfaces/models";
 
-const Member = ({ name, position, logo }: IMemberCard): ReactElement => (
+const Member = ({ member }: IMemberCard): ReactElement => (
   <div className="member">
-    <MemberCard name={name} position={position} logo={logo} />
+    <MemberCard member={member} />
     <button className="member__button" type="button">
       delete
     </button>

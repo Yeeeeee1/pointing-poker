@@ -1,5 +1,5 @@
 import { AuthReducer } from "../types/auth";
+import { UserReducer } from "../types/user";
 
-const getAuthState = (state: AuthReducer) => state.auth;
-
-export default getAuthState;
+export const getAuthState = (state: AuthReducer) => state.auth;
+export const getUserState = (state: UserReducer) => state.user;

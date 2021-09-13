@@ -1,13 +1,15 @@
 import React, { ReactElement, useEffect } from "react";
 import "./lobbyPage.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LobbyInfo from "./LobbyInfo/LobbyInfo";
 import LobbyMembers from "./LobbyMembers/LobbyMembers";
 import LobbyIssues from "./LobbyIssues/LobbyIssues";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
-import getAuthState from "../../../redux/store/selectors";
+import { getAuthState } from "../../../redux/store/selectors";
+import setUsers from "../../../redux/store/action-creators/user";
 
 const LobbyPage = (): ReactElement => {
+  const dispatch = useDispatch();
   const { formData } = useSelector(getAuthState);
 
   useEffect(() => {
@@ -16,11 +18,16 @@ const LobbyPage = (): ReactElement => {
     });
 
     socket.on(SocketEvent.JOIN_NOTIFY, (notification: string) => {
-      alert(notification); // TODO: implement a nice notification
+      console.info(notification); // TODO: implement a nice notification
+    });
+
+    socket.on(SocketEvent.UPDATE_USERS_LIST, (usersData) => {
+      console.info("users list updated");
+      dispatch(setUsers(usersData));
     });
 
     return () => {
-      socket.emit(SocketEvent.LEAVE_ROOM, formData!.firstName);
+      socket.emit(SocketEvent.LEAVE_ROOM, "roomName", formData!.firstName); // TODO: Get data about the current user & pass id
     };
   }, []);
 

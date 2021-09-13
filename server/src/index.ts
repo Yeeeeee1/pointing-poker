@@ -4,9 +4,8 @@ import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
 import PORT, { SocketEvent } from "./shared/globalVariables";
-import store, { updateRooms } from "./store/store";
-import excludeUser from "./shared/helperFuntions/helperFunctions";
-import { IRoom } from "./shared/interfaces/models";
+import store, { excludeUser, updateRooms } from "./store/store";
+import { IUser } from "./shared/interfaces/models";
 
 const logger = getLogger();
 logger.level = "debug";
@@ -22,22 +21,30 @@ const io = new Server(httpServer, {
 app.use(cors());
 
 io.on("connection", (socket: Socket) => {
-  socket.on(SocketEvent.JOIN_ROOM, (roomName, person, cb) => {
-    socket.join(roomName);
-    cb();
+  socket.on(
+    SocketEvent.JOIN_ROOM,
+    (roomName: string, person: IUser, notifyAboutSuccessJoin: () => void) => {
+      socket.join(roomName);
+      notifyAboutSuccessJoin();
 
-    socket.broadcast
-      .to(roomName)
-      .emit(SocketEvent.JOIN_NOTIFY, `${person.firstName} joined`);
+      socket.broadcast
+        .to(roomName)
+        .emit(SocketEvent.JOIN_NOTIFY, `${person.firstName} joined`);
 
-    updateRooms(roomName, person);
-    logger.debug("add to room", store.rooms);
+      const users = updateRooms(roomName, person);
+      io.to(roomName).emit(SocketEvent.UPDATE_USERS_LIST, users);
 
-    socket.on(SocketEvent.LEAVE_ROOM, (userName) => {
-      excludeUser(roomName, userName);
-      socket.leave(roomName);
-      logger.debug("leave from room", store.rooms);
-    });
+      logger.debug("add to room", store.rooms);
+    }
+  );
+
+  socket.on(SocketEvent.LEAVE_ROOM, (roomName, userId) => {
+    const remainingUsers = excludeUser(roomName, userId);
+    socket.leave(roomName);
+
+    io.to(roomName).emit(SocketEvent.UPDATE_USERS_LIST, remainingUsers);
+
+    logger.debug("leave from room", store.rooms);
   });
 });
 
