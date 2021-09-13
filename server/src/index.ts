@@ -4,8 +4,9 @@ import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
 import PORT, { SocketEvent } from "./shared/globalVariables";
-import store from "./store/store";
+import store, { updateRooms } from "./store/store";
 import excludeUser from "./shared/helperFuntions/helperFunctions";
+import { IRoom } from "./shared/interfaces/models";
 
 const logger = getLogger();
 logger.level = "debug";
@@ -29,11 +30,13 @@ io.on("connection", (socket: Socket) => {
       .to(roomName)
       .emit(SocketEvent.JOIN_NOTIFY, `${person.firstName} joined`);
 
-    store.users.push(person);
+    updateRooms(roomName, person);
+    logger.debug("add to room", store.rooms);
 
     socket.on(SocketEvent.LEAVE_ROOM, (userName) => {
-      excludeUser(userName);
+      excludeUser(roomName, userName);
       socket.leave(roomName);
+      logger.debug("leave from room", store.rooms);
     });
   });
 });

@@ -8,6 +8,11 @@ export interface IUser {
   isObserver: boolean;
 }
 
-export interface IStore {
+export interface IRoom {
+  name: string;
   users: IUser[];
+}
+
+export interface IStore {
+  rooms: IRoom[];
 }

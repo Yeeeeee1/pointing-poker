@@ -1,11 +1,14 @@
 import store from "../../store/store";
 
-const excludeUser = (userName: string): void => {
-  const userIndex = store.users.findIndex(
-    (user) => user.firstName === userName
+const excludeUser = (roomName: string, userName: string): void => {
+  store.rooms = store.rooms.map((room) =>
+    room.name === roomName
+      ? {
+          name: room.name,
+          users: room.users.filter((user) => user.firstName !== userName),
+        }
+      : room
   );
-
-  store.users.splice(userIndex, 1);
 };
 
 export default excludeUser;
