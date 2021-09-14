@@ -1,6 +1,7 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import "./lobbyPage.scss";
 import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 import LobbyInfo from "./LobbyInfo/LobbyInfo";
 import LobbyMembers from "./LobbyMembers/LobbyMembers";
 import LobbyIssues from "./LobbyIssues/LobbyIssues";
@@ -13,6 +14,7 @@ import { IUser } from "../../../../../server/src/shared/interfaces/models";
 
 const LobbyPage = (): ReactElement => {
   const dispatch = useDispatch();
+  const [alertMessage, updateAlertMessage] = useState<string | null>(null);
   const { formData: userData } = useSelector(getAuthState);
   const { roomId: lobbyId } = useSelector(getLobbyState);
 
@@ -29,6 +31,12 @@ const LobbyPage = (): ReactElement => {
   useEffect(() => {
     socket.on(SocketEvent.JOIN_NOTIFY, (notification: string) => {
       console.info(notification); // TODO: implement a nice notification
+
+      updateAlertMessage(notification);
+
+      setTimeout(() => {
+        updateAlertMessage(null);
+      }, 3000);
     });
 
     socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (users: IUser[]) => {
@@ -48,6 +56,7 @@ const LobbyPage = (): ReactElement => {
 
   return (
     <section className="lobby">
+      {alertMessage && <Alert variant="success">{alertMessage}</Alert>}
       <LobbyInfo />
       <LobbyMembers />
       <LobbyIssues />
