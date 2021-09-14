@@ -12,10 +12,20 @@ export enum RoutePath {
 }
 
 export enum SocketEvent {
+  GET_UPDATED_ROOM_NAME = "get-updated-room-name",
+  CONNECT = "connect",
+  CREATE_ROOM = "create-room",
+  UPDATE_ROOM = "update-room",
+  UPDATE_ROOM_NAME = "update-room-name",
   JOIN_ROOM = "join-room",
   JOIN_NOTIFY = "join-notify",
   LEAVE_ROOM = "leave-room",
-  UPDATE_USERS_LIST = "update-users-list",
+  GET_UPDATED_USERS_LIST = "get-updated-users-list",
+}
+
+export enum Role {
+  ADMIN = "admin",
+  PARTICIPANT = "participant",
 }
 
 export const initFormValue = {

@@ -11,6 +11,7 @@ export interface IUser {
 }
 
 export interface IRoom {
+  id: string;
   name: string;
   users: IUser[];
 }

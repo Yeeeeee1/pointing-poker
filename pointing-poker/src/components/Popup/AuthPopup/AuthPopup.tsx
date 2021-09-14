@@ -19,7 +19,11 @@ import toggleAuthMode, {
 import { getAuthState } from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
-const AuthPopup = (): ReactElement => {
+export interface IAuthPopup {
+  connect: () => void;
+}
+
+const AuthPopup = ({ connect }: IAuthPopup): ReactElement => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isOpenAuthPopup } = useSelector(getAuthState);
@@ -83,9 +87,10 @@ const AuthPopup = (): ReactElement => {
 
     dispatch(setFormData(formData));
 
-    closePopup();
+    connect();
 
     history.push("/lobby");
+    closePopup();
   };
 
   return (

@@ -4,38 +4,52 @@ const store: IStore = {
   rooms: [],
 };
 
-export const updateRooms = (roomName: string, person: IUser): IUser[] => {
-  const currentRoom = store.rooms.find((room) => room.name === roomName);
-  const newUser: IUser = { ...person, id: Date.now().toString() }; // TODO: set correct id
+export const checkCorrectRoomId = (roomId): IRoom => {
+  return store.rooms.find((room) => room.id === roomId);
+};
 
-  if (currentRoom) {
-    newUser.role = "participant";
-
-    const updatedRoom: IRoom = {
-      ...currentRoom,
-      users: [...currentRoom.users, newUser],
-    };
-
-    store.rooms = store.rooms.map((room) =>
-      room.name === roomName ? updatedRoom : room
-    );
-
-    return updatedRoom.users;
-  }
-
-  newUser.role = "admin";
+export const createNewRoom = (roomId: string) => {
+  const defaultRoomName = `Room № ${store.rooms.length}`;
 
   const newRoom: IRoom = {
-    name: roomName,
-    users: [newUser],
+    id: roomId,
+    name: defaultRoomName,
+    users: [],
   };
 
   store.rooms = [...store.rooms, newRoom];
+};
 
-  return newRoom.users;
+export const joinNewUser = (roomId: string, newUser: IUser) => {
+  const currentRoom = store.rooms.find((room) => room.id === roomId);
+
+  const updatedRoom: IRoom = {
+    ...currentRoom,
+    users: [...currentRoom.users, newUser],
+  };
+
+  store.rooms = store.rooms.map((room) =>
+    room.id === roomId ? updatedRoom : room
+  );
+};
+
+export const getRoom = (roomId: string): IRoom => {
+  return store.rooms.find((room) => room.id === roomId);
+};
+
+export const updateRoomName = (roomID, newRoomName: string) => {
+  store.rooms = store.rooms.map((room) =>
+    room.id === roomID
+      ? {
+          ...room,
+          name: newRoomName,
+        }
+      : room
+  );
 };
 
 export const excludeUser = (roomName: string, userId: string): IUser[] => {
+  // TODO: rewrite method
   const currentRoom = store.rooms.find((room) => room.name === roomName);
 
   const updatedUsers = currentRoom.users.filter(

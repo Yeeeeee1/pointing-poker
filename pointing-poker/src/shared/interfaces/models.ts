@@ -4,6 +4,12 @@ export interface IMemberCard {
   member: User;
 }
 
+export interface IRoom {
+  name: string;
+  id: string;
+  users: User[];
+}
+
 export interface IIssue {
   id: string;
   title: string;

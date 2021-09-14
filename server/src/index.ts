@@ -3,8 +3,15 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
-import PORT, { SocketEvent } from "./shared/globalVariables";
-import store, { excludeUser, updateRooms } from "./store/store";
+import PORT, { Role, SocketEvent } from "./shared/globalVariables";
+import store, {
+  checkCorrectRoomId,
+  createNewRoom,
+  excludeUser,
+  getRoom,
+  joinNewUser,
+  updateRoomName,
+} from "./store/store";
 import { IUser } from "./shared/interfaces/models";
 
 const logger = getLogger();
@@ -22,30 +29,63 @@ app.use(cors());
 
 io.on("connection", (socket: Socket) => {
   socket.on(
-    SocketEvent.JOIN_ROOM,
-    (roomName: string, person: IUser, notifyAboutSuccessJoin: () => void) => {
-      socket.join(roomName);
-      notifyAboutSuccessJoin();
+    SocketEvent.CREATE_ROOM,
+    (notifyAboutSuccess: (createdRoomId: string) => void) => {
+      logger.debug(io.engine.rooms);
+      createNewRoom(socket.id);
 
-      socket.broadcast
-        .to(roomName)
-        .emit(SocketEvent.JOIN_NOTIFY, `${person.firstName} joined`);
+      notifyAboutSuccess(socket.id.toString());
 
-      const users = updateRooms(roomName, person);
-      io.to(roomName).emit(SocketEvent.UPDATE_USERS_LIST, users);
+      socket.on(
+        SocketEvent.UPDATE_ROOM_NAME,
+        (roomId: string, newRoomName: string) => {
+          updateRoomName(roomId, newRoomName);
 
-      logger.debug("add to room", store.rooms);
+          io.to(roomId).emit(SocketEvent.GET_UPDATED_ROOM_NAME, newRoomName);
+        }
+      );
     }
   );
+
+  socket.on(
+    SocketEvent.JOIN_ROOM,
+    (roomId: string, notifyAboutSuccessJoin: () => void) => {
+      const foundRoom = checkCorrectRoomId(roomId);
+
+      if (foundRoom) {
+        socket.join(roomId);
+        notifyAboutSuccessJoin();
+      } else {
+        logger.debug("room is not exist");
+      }
+    }
+  );
+
+  socket.on(SocketEvent.UPDATE_ROOM, (roomId: string, userData: IUser) => {
+    joinNewUser(roomId, {
+      ...userData,
+      role: roomId === socket.id ? Role.ADMIN : Role.PARTICIPANT,
+    });
+
+    socket.broadcast
+      .to(roomId)
+      .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`); // TODO: div methods (update room name) (update users list)
+
+    const foundRoom = getRoom(roomId);
+
+    logger.debug("update room", store.rooms);
+
+    io.to(roomId).emit(SocketEvent.GET_UPDATED_USERS_LIST, foundRoom.users);
+  });
 
   socket.on(SocketEvent.LEAVE_ROOM, (roomName, userId) => {
     const remainingUsers = excludeUser(roomName, userId);
     socket.leave(roomName);
 
-    io.to(roomName).emit(SocketEvent.UPDATE_USERS_LIST, remainingUsers);
+    io.to(roomName).emit(SocketEvent.GET_UPDATED_USERS_LIST, remainingUsers);
 
     logger.debug("leave from room", store.rooms);
-  });
+  }); // TODO: rewrite method
 });
 
 app.get("/", (req, res) => {

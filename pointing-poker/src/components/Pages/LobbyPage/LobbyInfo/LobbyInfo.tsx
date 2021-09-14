@@ -4,14 +4,15 @@ import "./lobbyInfo.scss";
 import { useSelector } from "react-redux";
 import MemberCard from "../../../MemberCard/MemberCard";
 import LobbyHeader from "./LobbyHeader/LobbyHeader";
-import { getUserState } from "../../../../redux/store/selectors";
+import { getLobbyState, getUserState } from "../../../../redux/store/selectors";
+import { Role } from "../../../../shared/globalVariables";
 
 const LobbyInfo = (): ReactElement => {
+  const { roomId } = useSelector(getLobbyState);
   const { users } = useSelector(getUserState);
   const inputRef = useRef<any>(null);
-  const url = "https://smth-url/asd/asf/sf/asfasfasfasfasfasfasfasfasfas";
 
-  const admin = users.find((user) => user.role === "admin");
+  const admin = users.find((user) => user.role === Role.ADMIN);
 
   const copyURL = (): void => {
     inputRef.current.select();
@@ -32,7 +33,7 @@ const LobbyInfo = (): ReactElement => {
             ref={inputRef}
             className="lobby-info__input"
             type="text"
-            value={url}
+            value={roomId}
           />
           <Button
             className="lobby-info__button"

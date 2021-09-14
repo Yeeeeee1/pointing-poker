@@ -5,29 +5,44 @@ import LobbyInfo from "./LobbyInfo/LobbyInfo";
 import LobbyMembers from "./LobbyMembers/LobbyMembers";
 import LobbyIssues from "./LobbyIssues/LobbyIssues";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
-import { getAuthState } from "../../../redux/store/selectors";
+import { getAuthState, getLobbyState } from "../../../redux/store/selectors";
 import setUsers from "../../../redux/store/action-creators/user";
+import setRoomName from "../../../redux/store/action-creators/lobby";
+import { IRoom } from "../../../shared/interfaces/models";
+import { IUser } from "../../../../../server/src/shared/interfaces/models";
 
 const LobbyPage = (): ReactElement => {
   const dispatch = useDispatch();
-  const { formData } = useSelector(getAuthState);
+  const { formData: userData } = useSelector(getAuthState);
+  const { roomId: lobbyId } = useSelector(getLobbyState);
 
   useEffect(() => {
-    socket.emit(SocketEvent.JOIN_ROOM, "roomName", formData, () => {
-      console.info("Joined"); // TODO: implement a nice notification
-    });
+    if (lobbyId) {
+      socket.emit(SocketEvent.UPDATE_ROOM, lobbyId, userData);
+    }
 
+    return () => {
+      socket.off(SocketEvent.UPDATE_ROOM);
+    };
+  }, [lobbyId]);
+
+  useEffect(() => {
     socket.on(SocketEvent.JOIN_NOTIFY, (notification: string) => {
       console.info(notification); // TODO: implement a nice notification
     });
 
-    socket.on(SocketEvent.UPDATE_USERS_LIST, (usersData) => {
-      console.info("users list updated");
-      dispatch(setUsers(usersData));
+    socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (users: IUser[]) => {
+      dispatch(setUsers(users));
+    });
+
+    socket.on(SocketEvent.GET_UPDATED_ROOM_NAME, (newRoomName: string) => {
+      dispatch(setRoomName(newRoomName));
     });
 
     return () => {
-      socket.emit(SocketEvent.LEAVE_ROOM, "roomName", formData!.firstName); // TODO: Get data about the current user & pass id
+      socket.off(SocketEvent.JOIN_NOTIFY);
+      socket.off(SocketEvent.GET_UPDATED_USERS_LIST); // TODO: move out
+      socket.off(SocketEvent.GET_UPDATED_ROOM_NAME); // TODO: move out
     };
   }, []);
 
