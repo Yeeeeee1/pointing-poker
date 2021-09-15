@@ -2,6 +2,7 @@ import React, { Fragment, ReactElement } from "react";
 import "./issuesList.scss";
 import Issue from "./Issue/Issue";
 import { IIssuesListProps } from "../../../../../shared/interfaces/models";
+import NewIssue from "./NewIssue/NewIssue";
 
 const IssuesList = ({ issues }: IIssuesListProps): ReactElement => (
   <ul className="issues-list">
@@ -10,7 +11,7 @@ const IssuesList = ({ issues }: IIssuesListProps): ReactElement => (
         <Issue issue={issue} />
       </Fragment>
     ))}
-    {/* <NewIssue /> */}
+    <NewIssue />
   </ul>
 );
 
