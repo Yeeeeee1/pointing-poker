@@ -4,7 +4,7 @@ const store: IStore = {
   rooms: [],
 };
 
-export const createNewRoom = (roomId: string): void => {
+export const createNewRoom = (roomId: string): string => {
   const defaultRoomName = `Room № ${store.rooms.length}`;
 
   const newRoom: IRoom = {
@@ -14,6 +14,8 @@ export const createNewRoom = (roomId: string): void => {
   };
 
   store.rooms = [...store.rooms, newRoom];
+
+  return defaultRoomName;
 };
 
 export const joinNewUser = (roomId: string, newUser: IUser) => {
@@ -44,6 +46,9 @@ export const updateRoomName = (roomID, newRoomName: string) => {
   );
 };
 
+export const removeRoom = (roomId: string) => {
+  store.rooms.filter((room) => room.id !== roomId);
+};
 // TODO: rewrite method
 // export const excludeUser = (roomName: string, userId: string): IUser[] => {
 //   const currentRoom = store.rooms.find((room) => room.name === roomName);

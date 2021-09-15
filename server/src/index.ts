@@ -3,14 +3,9 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
-import PORT, { Role, SocketEvent } from "./shared/globalVariables";
-import {
-  createNewRoom,
-  getRoom,
-  joinNewUser,
-  updateRoomName,
-} from "./store/store";
-import { IUser } from "./shared/interfaces/models";
+import PORT, { SocketEvent } from "./shared/globalVariables";
+import { createNewRoom, getRoom, updateRoomName } from "./store/store";
+import { ConnectResult } from "./shared/interfaces/models";
 
 require("dotenv").config();
 
@@ -45,19 +40,10 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
 
   socket.on(
     SocketEvent.CREATE_ROOM,
-    (
-      notifyAboutSuccess: (
-        isSuccessCreated: boolean,
-        createdRoomId: string
-      ) => void
-    ) => {
-      createNewRoom(socket.id);
+    (notifyAboutSuccess: (roomName: string, createdRoomId: string) => void) => {
+      const roomName = createNewRoom(socket.id);
 
-      if (socket.rooms.has(socket.id)) {
-        notifyAboutSuccess(true, socket.id.toString());
-      } else {
-        notifyAboutSuccess(false, "Room is not exist");
-      }
+      notifyAboutSuccess(roomName, socket.id);
 
       changeRoomName();
     }
@@ -67,39 +53,47 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
     SocketEvent.JOIN_ROOM,
     (
       roomId: string,
-      notifyAboutSuccessJoin: (isSuccessJoin: boolean) => void
+      notifyAboutConnect: (connectResult: ConnectResult, data: string) => void
     ) => {
-      const foundRoom = getRoom(roomId);
+      try {
+        const foundRoom = getRoom(roomId);
 
-      if (foundRoom) {
-        socket.join(roomId);
-        notifyAboutSuccessJoin(true);
-      } else {
-        notifyAboutSuccessJoin(false);
+        if (foundRoom) {
+          socket.join(roomId);
+          notifyAboutConnect(ConnectResult.SUCCESS, foundRoom.name);
+          return;
+        }
+
+        notifyAboutConnect(ConnectResult.ERROR, "Room is not exist");
+      } catch (er) {
+        logger.debug(er);
       }
     }
   );
 
-  socket.on(
-    SocketEvent.UPDATE_STATE_ROOM,
-    (roomId: string, userData: IUser) => {
-      joinNewUser(roomId, {
-        ...userData,
-        role: roomId === socket.id ? Role.ADMIN : Role.PARTICIPANT,
-      });
-
-      socket.broadcast
-        .to(roomId)
-        .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`);
-
-      const foundRoom = getRoom(roomId);
-
-      io.to(roomId).emit(SocketEvent.GET_UPDATED_USERS_LIST, foundRoom.users);
-    }
-  );
+  // socket.on(
+  //   SocketEvent.UPDATE_STATE_ROOM,
+  //   (roomId: string, userData: IUser) => {
+  //     joinNewUser(roomId, {
+  //       ...userData,
+  //       role: roomId === socket.id ? Role.ADMIN : Role.PARTICIPANT,
+  //     });
+  //
+  //     socket.broadcast
+  //       .to(roomId)
+  //       .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`);
+  //
+  //     const foundRoom = getRoom(roomId);
+  //
+  //     io.to(roomId).emit(SocketEvent.GET_UPDATED_USERS_LIST, foundRoom.users);
+  //   }
+  // );
 
   // TODO: rewrite method
-  // socket.on(SocketEvent.LEAVE_ROOM, (roomName, userId) => {
+  // socket.on(SocketEvent.LEAVE_ROOM, (roomId: string) => {
+  //   if (roomId === socket.id) {
+  //     removeRoom(roomId);
+  //   }
   //   const remainingUsers = excludeUser(roomName, userId);
   //   socket.leave(roomName);
   //

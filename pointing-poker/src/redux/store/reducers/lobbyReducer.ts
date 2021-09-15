@@ -11,7 +11,11 @@ const userReducer = (
 ): ILobbyState => {
   switch (action.type) {
     case LobbyActionType.SET_NEW_ROOM:
-      return { ...state, roomId: action.payload };
+      return {
+        ...state,
+        roomId: action.payload.id,
+        roomName: action.payload.name,
+      };
     case LobbyActionType.SET_ROOM_NAME:
       return {
         ...state,
@@ -20,7 +24,7 @@ const userReducer = (
     case LobbyActionType.UPDATE_ROOM_NAME:
       return { ...state, roomName: action.payload };
     case LobbyActionType.REMOVE_ROOM_ID:
-      return { ...state, roomId: action.payload };
+      return { ...state, roomId: "" };
     default:
       return state;
   }

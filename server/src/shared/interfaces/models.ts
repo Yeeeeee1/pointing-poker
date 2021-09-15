@@ -1,5 +1,10 @@
 type UserAvatar = string | ArrayBuffer | null;
 
+export enum ConnectResult {
+  ERROR = "error",
+  SUCCESS = "success",
+}
+
 export interface IUser {
   id: string;
   firstName: string;

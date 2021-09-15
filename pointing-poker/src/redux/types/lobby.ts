@@ -1,3 +1,8 @@
+export interface IRoom {
+  id: string;
+  name: string;
+}
+
 export interface ILobbyState {
   roomId: string;
   roomName: string;
@@ -12,12 +17,11 @@ export enum LobbyActionType {
 
 interface IRemoveRoomID {
   type: LobbyActionType.REMOVE_ROOM_ID;
-  payload: string;
 }
 
 interface ISetRoomId {
   type: LobbyActionType.SET_NEW_ROOM;
-  payload: string;
+  payload: IRoom;
 }
 
 interface ISetRoomName {

@@ -7,30 +7,35 @@ import { socket, SocketEvent } from "../../../shared/globalVariables";
 export const createRoomAndGetRoomID =
   (history: History) =>
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
-    socket.emit(
-      SocketEvent.CREATE_ROOM,
-      (isSuccessCreated: boolean, createdRoomId: string): void => {
-        if (isSuccessCreated) {
-          dispatch(setNewRoom(createdRoomId));
-          history.push("/lobby");
-        }
+    const getRoomData = (roomName: string, createdRoomId: string): void => {
+      dispatch(setNewRoom({ id: createdRoomId, name: roomName }));
+      history.push("/lobby");
+    };
 
-        // TODO: notify about error
-      }
-    );
+    socket.emit(SocketEvent.CREATE_ROOM, getRoomData);
   };
+
+export enum ConnectionResult {
+  ERROR = "error",
+  SUCCESS = "success",
+}
 
 export const joinToRoomAndGetRoomID =
   (roomId: string, history: History) =>
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
-    socket.emit(SocketEvent.JOIN_ROOM, roomId, (isSuccessJoin: boolean) => {
-      if (isSuccessJoin) {
-        dispatch(setNewRoom(roomId));
+    const getResultOfConnection = (
+      result: ConnectionResult,
+      data: string
+    ): void => {
+      if (result === ConnectionResult.SUCCESS) {
+        dispatch(setNewRoom({ id: roomId, name: data }));
         history.push("/lobby");
+      } else {
+        console.error(data);
       }
+    };
 
-      // TODO: notify about error
-    });
+    socket.emit(SocketEvent.JOIN_ROOM, roomId, getResultOfConnection);
   };
 
 export const leaveFromRoom =
@@ -38,7 +43,7 @@ export const leaveFromRoom =
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId, (isSuccessLeave: boolean) => {
       if (isSuccessLeave) {
-        dispatch(removeRoomId(roomId));
+        dispatch(removeRoomId());
         history.push("/");
       }
 
