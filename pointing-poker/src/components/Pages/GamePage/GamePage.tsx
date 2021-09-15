@@ -4,11 +4,12 @@ import { Button } from "react-bootstrap";
 import MemberCard from "../../MemberCard/MemberCard";
 import Timer from "../../Timer/Timer";
 import GamePageIssues from "./GamePageIssues/GamePageIssues";
+import GamePageMembers from "./GamePageMembers/GamePageMembers";
 
 const GamePage: FC = () => {
   return (
     <div className="game-page__wrapper" style={{display: 'flex'}}>
-      <div className="game-page__main" style={{width: '70%'}}>
+      <div className="game-page__main" style={{width: '60%'}}>
         <div className="game-page__main-title">
           <h2>Spring 23 pannimg...</h2>
           <div className="game-page__scrum-block" style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -39,8 +40,14 @@ const GamePage: FC = () => {
         </div>
 
       </div>
-      <div className="game-page__players" style={{width: '30%', borderLeft: '2px solid black'}}>
-        players list
+      <div className="game-page__players" style={{width: '40%', borderLeft: '2px solid black', display: 'flex'}}>
+        <div className="game-page__players-score" style={{}}>
+          players list
+        </div>
+        <div className="game-page__players-players" style={{}}>
+          Players:
+          <GamePageMembers/>
+        </div>
       </div>
     </div>
   )
