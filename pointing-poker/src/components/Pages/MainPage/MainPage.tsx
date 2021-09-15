@@ -1,7 +1,8 @@
 import React, { ReactElement, useState } from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Alert } from "react-bootstrap";
 import "./mainPage.scss";
 import { useDispatch } from "react-redux";
+import { History } from "history";
 import MainPageLogo from "../../../shared/BaseComponents/MainPageLogo/MainPageLogo";
 import AuthPopup from "../../Popup/AuthPopup/AuthPopup";
 import toggleAuthMode from "../../../redux/store/action-creators/auth";
@@ -12,6 +13,7 @@ import {
 
 const MainPage = (): ReactElement => {
   const dispatch = useDispatch();
+  const [alertMessage, updateAlertMessage] = useState<string | null>(null);
   const [Popup, updatePopup] = useState<null | ReactElement>(null);
   const [link, updateLink] = useState<string>("");
 
@@ -20,8 +22,8 @@ const MainPage = (): ReactElement => {
   };
 
   const startNewGame = (): void => {
-    const createRoom = () => {
-      dispatch(createRoomAndGetRoomID());
+    const createRoom = (history: History) => {
+      dispatch(createRoomAndGetRoomID(history));
     };
 
     updatePopup(<AuthPopup connect={createRoom} />);
@@ -29,8 +31,18 @@ const MainPage = (): ReactElement => {
   };
 
   const linkToRoom = () => {
-    const connectToRoom = () => {
-      dispatch(joinToRoomAndGetRoomID(link));
+    if (!link.trim()) {
+      updateAlertMessage("Enter the lobby URL!");
+
+      setTimeout(() => {
+        updateAlertMessage(null);
+      }, 1500);
+
+      return;
+    }
+
+    const connectToRoom = (history: History) => {
+      dispatch(joinToRoomAndGetRoomID(link, history));
     };
 
     updatePopup(<AuthPopup connect={connectToRoom} />);
@@ -39,6 +51,7 @@ const MainPage = (): ReactElement => {
 
   return (
     <>
+      {alertMessage && <Alert variant="danger">{alertMessage}</Alert>}
       {Popup}
       <div className="main-page">
         <MainPageLogo />

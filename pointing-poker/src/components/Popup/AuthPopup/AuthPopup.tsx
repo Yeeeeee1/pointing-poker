@@ -2,6 +2,7 @@ import React, { ChangeEvent, ReactElement, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { History } from "history";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
 import {
@@ -20,11 +21,10 @@ import { getAuthState } from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
 export interface IAuthPopup {
-  connect: () => void;
+  connect: (history: History) => void;
 }
-
 const AuthPopup = ({ connect }: IAuthPopup): ReactElement => {
-  const history = useHistory();
+  const history = useHistory<History>();
   const dispatch = useDispatch();
   const { isOpenAuthPopup } = useSelector(getAuthState);
   const [formFields, updateFormFields] = useState<AuthFormData>(initFormValue);
@@ -87,9 +87,9 @@ const AuthPopup = ({ connect }: IAuthPopup): ReactElement => {
 
     dispatch(setFormData(formData));
 
-    connect();
+    connect(history);
 
-    history.push("/lobby");
+    // history.push("/lobby");
     closePopup();
   };
 

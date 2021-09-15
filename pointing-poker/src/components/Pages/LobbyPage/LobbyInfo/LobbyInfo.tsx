@@ -10,14 +10,16 @@ import { Role } from "../../../../shared/globalVariables";
 const LobbyInfo = (): ReactElement => {
   const { roomId } = useSelector(getLobbyState);
   const { users } = useSelector(getUserState);
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const admin = users.find((user) => user.role === Role.ADMIN);
 
   const copyURL = (): void => {
-    inputRef.current.select();
-    document.execCommand("copy");
-    inputRef.current.blur();
+    if (inputRef.current) {
+      inputRef.current.select();
+      document.execCommand("copy");
+      inputRef.current.blur();
+    }
   };
 
   return (

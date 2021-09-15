@@ -18,8 +18,6 @@ require("dotenv").config();
 const logger = getLogger();
 logger.level = "debug";
 
-logger.debug(process.env.URL);
-
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -33,10 +31,19 @@ app.use(cors());
 io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   socket.on(
     SocketEvent.CREATE_ROOM,
-    (notifyAboutSuccess: (createdRoomId: string) => void) => {
+    (
+      notifyAboutSuccess: (
+        isSuccessCreated: boolean,
+        createdRoomId: string
+      ) => void
+    ) => {
       createNewRoom(socket.id);
 
-      notifyAboutSuccess(socket.id.toString());
+      if (socket.rooms.has(socket.id)) {
+        notifyAboutSuccess(true, socket.id.toString());
+      } else {
+        notifyAboutSuccess(false, "Room is not exist");
+      }
 
       socket.on(
         SocketEvent.UPDATE_ROOM_NAME,
@@ -51,14 +58,21 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
 
   socket.on(
     SocketEvent.JOIN_ROOM,
-    (roomId: string, notifyAboutSuccessJoin: () => void) => {
+    (
+      roomId: string,
+      notifyAboutSuccessJoin: (isSuccessJoin: boolean) => void
+    ) => {
+      logger.debug("roomId", roomId);
+
       const foundRoom = getRoom(roomId);
+      logger.debug("foundRoom", foundRoom);
 
       if (foundRoom) {
         socket.join(roomId);
-        notifyAboutSuccessJoin();
+        notifyAboutSuccessJoin(true);
       } else {
         logger.debug("room is not exist");
+        notifyAboutSuccessJoin(false);
       }
     }
   );

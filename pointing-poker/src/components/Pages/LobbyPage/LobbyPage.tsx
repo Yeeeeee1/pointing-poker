@@ -30,8 +30,6 @@ const LobbyPage = (): ReactElement => {
 
   useEffect(() => {
     socket.on(SocketEvent.JOIN_NOTIFY, (notification: string) => {
-      console.info(notification); // TODO: implement a nice notification
-
       updateAlertMessage(notification);
 
       setTimeout(() => {
