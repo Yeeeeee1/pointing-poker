@@ -22,7 +22,7 @@ const GamePageIssues: FC = () => {
   ];
 
   return (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'column'}}>
       <h3 className="lobby__title">Issues:</h3>
       <IssuesList issues={issues} />
     </div>
