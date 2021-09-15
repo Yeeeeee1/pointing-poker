@@ -1,0 +1,56 @@
+.issue {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 3fr 1fr;
+  padding: 0.63rem 0.93rem;
+  box-shadow: 0 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.34);
+  border-radius: 0.4rem;
+
+  &__title {
+    font-size: 1.23rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  &__description {
+    font-size: 0.78em;
+    font-weight: 300;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    transition: .2s;
+    width: max-content;
+
+    &_new {
+      display: flex;
+      justify-self: flex-end;
+    }
+
+    &_icon {
+      width: 2rem;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      transform: scale(1.04);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+p {
+  margin: 0;
+}
