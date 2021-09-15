@@ -5,7 +5,6 @@ import cors from "cors";
 import { getLogger } from "log4js";
 import PORT, { Role, SocketEvent } from "./shared/globalVariables";
 import store, {
-  checkCorrectRoomId,
   createNewRoom,
   excludeUser,
   getRoom,
@@ -14,24 +13,27 @@ import store, {
 } from "./store/store";
 import { IUser } from "./shared/interfaces/models";
 
+require("dotenv").config();
+
 const logger = getLogger();
 logger.level = "debug";
+
+logger.debug(process.env.URL);
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.URL,
   },
 });
 
 app.use(cors());
 
-io.on("connection", (socket: Socket) => {
+io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   socket.on(
     SocketEvent.CREATE_ROOM,
     (notifyAboutSuccess: (createdRoomId: string) => void) => {
-      logger.debug(io.engine.rooms);
       createNewRoom(socket.id);
 
       notifyAboutSuccess(socket.id.toString());
@@ -50,7 +52,7 @@ io.on("connection", (socket: Socket) => {
   socket.on(
     SocketEvent.JOIN_ROOM,
     (roomId: string, notifyAboutSuccessJoin: () => void) => {
-      const foundRoom = checkCorrectRoomId(roomId);
+      const foundRoom = getRoom(roomId);
 
       if (foundRoom) {
         socket.join(roomId);
@@ -69,11 +71,9 @@ io.on("connection", (socket: Socket) => {
 
     socket.broadcast
       .to(roomId)
-      .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`); // TODO: div methods (update room name) (update users list)
+      .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`);
 
     const foundRoom = getRoom(roomId);
-
-    logger.debug("update room", store.rooms);
 
     io.to(roomId).emit(SocketEvent.GET_UPDATED_USERS_LIST, foundRoom.users);
   });

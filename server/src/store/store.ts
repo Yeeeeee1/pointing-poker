@@ -4,10 +4,6 @@ const store: IStore = {
   rooms: [],
 };
 
-export const checkCorrectRoomId = (roomId): IRoom => {
-  return store.rooms.find((room) => room.id === roomId);
-};
-
 export const createNewRoom = (roomId: string) => {
   const defaultRoomName = `Room № ${store.rooms.length}`;
 
