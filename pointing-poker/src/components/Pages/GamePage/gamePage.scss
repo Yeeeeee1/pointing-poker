@@ -1,0 +1,15 @@
+.game-page__players {
+  width: 40%;
+  padding-left: 10px;
+  border-left: 2px solid lightgray;
+  display: flex;
+
+  &-title {
+    font-size: 36px;
+    font-weight: 600;
+  }
+
+  &-players {
+    margin-left: 10px;
+  }
+}

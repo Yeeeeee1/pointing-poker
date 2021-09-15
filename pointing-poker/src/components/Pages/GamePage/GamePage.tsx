@@ -5,6 +5,8 @@ import MemberCard from "../../MemberCard/MemberCard";
 import Timer from "../../Timer/Timer";
 import GamePageIssues from "./GamePageIssues/GamePageIssues";
 import GamePageMembers from "./GamePageMembers/GamePageMembers";
+import "./gamePage.scss";
+import MemberStatus from "./GamePageMembers/MemberStatus/MemberStatus";
 
 const GamePage: FC = () => {
   return (
@@ -40,12 +42,17 @@ const GamePage: FC = () => {
         </div>
 
       </div>
-      <div className="game-page__players" style={{width: '40%', borderLeft: '2px solid black', display: 'flex'}}>
+      <div className="game-page__players">
         <div className="game-page__players-score" style={{}}>
-          players list
+          <div className="game-page__players-title">
+            Score:
+            <MemberStatus/>
+          </div>
         </div>
         <div className="game-page__players-players" style={{}}>
-          Players:
+          <div className="game-page__players-title">
+            Players:
+          </div>
           <GamePageMembers/>
         </div>
       </div>

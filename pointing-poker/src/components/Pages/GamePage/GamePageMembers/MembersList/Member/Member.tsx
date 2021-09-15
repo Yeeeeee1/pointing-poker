@@ -4,9 +4,9 @@ import "./member.scss";
 import { IMemberCard } from "../../../../../../shared/interfaces/models";
 
 const Member = ({ name, position, logo }: IMemberCard): ReactElement => (
-  <div className="member">
+  <div className="game-page__member">
     <MemberCard name={name} position={position} logo={logo} />
-    <button className="member__button" type="button">
+    <button className="game-page__member__button" type="button">
       delete
     </button>
   </div>
