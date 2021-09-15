@@ -45,12 +45,12 @@ export const joinToRoomAndGetRoomID =
 export const leaveFromRoom =
   (roomId: string, history: History) =>
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
-    socket.emit(SocketEvent.LEAVE_ROOM, roomId, (isSuccessLeave: boolean) => {
-      if (isSuccessLeave) {
-        dispatch(removeRoomId());
-        history.push("/");
-      }
+    const disconnect = () => {
+      dispatch(removeRoomId());
+      history.push("/");
 
       // TODO: notify about error
-    });
+    };
+
+    socket.emit(SocketEvent.LEAVE_ROOM, roomId, disconnect);
   };

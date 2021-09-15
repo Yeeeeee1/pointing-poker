@@ -9,7 +9,7 @@ import { socket, SocketEvent } from "../../../shared/globalVariables";
 import { getAuthState, getLobbyState } from "../../../redux/store/selectors";
 import setRoomName from "../../../redux/store/action-creators/lobby";
 import { IUser } from "../../../../../server/src/shared/interfaces/models";
-import setUser from "../../../redux/store/action-creators/user";
+import setUser, { setUsers } from "../../../redux/store/action-creators/user";
 
 const LobbyPage = (): ReactElement => {
   const dispatch = useDispatch();
@@ -36,8 +36,12 @@ const LobbyPage = (): ReactElement => {
       }, 3000);
     });
 
-    socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (user: IUser) => {
+    socket.on(SocketEvent.GET_NEW_USER, (user: IUser) => {
       dispatch(setUser(user));
+    });
+
+    socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (users: IUser[]) => {
+      dispatch(setUsers(users));
     });
 
     socket.on(
@@ -48,6 +52,7 @@ const LobbyPage = (): ReactElement => {
     );
 
     return () => {
+      socket.off(SocketEvent.GET_NEW_USER);
       socket.off(SocketEvent.JOIN_NOTIFY);
       socket.off(SocketEvent.GET_UPDATED_USERS_LIST); // TODO: move out
       socket.off(SocketEvent.GET_UPDATED_ROOM_NAME); // TODO: move out

@@ -47,21 +47,19 @@ export const updateRoomName = (roomID, newRoomName: string) => {
 };
 
 export const removeRoom = (roomId: string) => {
-  store.rooms.filter((room) => room.id !== roomId);
+  store.rooms = store.rooms.filter((room) => room.id !== roomId);
 };
-// TODO: rewrite method
-// export const excludeUser = (roomName: string, userId: string): IUser[] => {
-//   const currentRoom = store.rooms.find((room) => room.name === roomName);
-//
-//   const updatedUsers = currentRoom.users.filter(
-//     (user) => user.firstName !== userId
-//   );
-//
-//   store.rooms = store.rooms.map((room) =>
-//     room.name === roomName ? { ...room, users: updatedUsers } : room
-//   );
-//
-//   return updatedUsers;
-// };
+
+export const excludeUser = (roomId: string, userId: string): IUser[] => {
+  const currentRoom = store.rooms.find((room) => room.id === roomId);
+
+  const updatedUsers = currentRoom.users.filter((user) => user.id !== userId);
+
+  store.rooms = store.rooms.map((room) =>
+    room.id === roomId ? { ...room, users: updatedUsers } : room
+  );
+
+  return updatedUsers;
+};
 
 export default store;

@@ -4,10 +4,12 @@ import { Server, Socket } from "socket.io";
 import cors from "cors";
 import { getLogger } from "log4js";
 import PORT, { Role, SocketEvent } from "./shared/globalVariables";
-import {
+import store, {
   createNewRoom,
+  excludeUser,
   getRoom,
   joinNewUserToRoom,
+  removeRoom,
   updateRoomName,
 } from "./store/store";
 import { ConnectResult, IRoom, IUser } from "./shared/interfaces/models";
@@ -86,33 +88,52 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   socket.on(
     SocketEvent.UPDATE_USERS_LIST,
     (roomId: string, userData: IUser) => {
-      const newUser: IUser = {
-        ...userData,
-        role: roomId === socket.id ? Role.ADMIN : Role.PARTICIPANT,
-      };
+      try {
+        const newUser: IUser = {
+          ...userData,
+          id: socket.id,
+          role: roomId === socket.id ? Role.ADMIN : Role.PARTICIPANT,
+        };
 
-      joinNewUserToRoom(roomId, newUser);
+        joinNewUserToRoom(roomId, newUser);
 
-      socket.broadcast
-        .to(roomId)
-        .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`);
+        socket.broadcast
+          .to(roomId)
+          .emit(SocketEvent.JOIN_NOTIFY, `${userData.firstName} joined`);
 
-      io.to(roomId).emit(SocketEvent.GET_UPDATED_USERS_LIST, newUser);
+        io.to(roomId).emit(SocketEvent.GET_NEW_USER, newUser);
+      } catch (error) {
+        logger.debug(error);
+      }
     }
   );
 
-  // TODO: rewrite method
-  // socket.on(SocketEvent.LEAVE_ROOM, (roomId: string) => {
-  //   if (roomId === socket.id) {
-  //     removeRoom(roomId);
-  //   }
-  //   const remainingUsers = excludeUser(roomName, userId);
-  //   socket.leave(roomName);
-  //
-  //   io.to(roomName).emit(SocketEvent.GET_UPDATED_USERS_LIST, remainingUsers);
-  //
-  //   logger.debug("leave from room", store.rooms);
-  // });
+  socket.on(
+    SocketEvent.LEAVE_ROOM,
+    (roomId: string, getUpdatedUsersList: () => void) => {
+      try {
+        if (roomId === socket.id) {
+          removeRoom(roomId);
+
+          io.socketsLeave(roomId);
+
+          getUpdatedUsersList();
+        } else {
+          const remainingUsers = excludeUser(roomId, socket.id);
+
+          socket.broadcast
+            .to(roomId)
+            .emit(SocketEvent.GET_UPDATED_USERS_LIST, remainingUsers);
+
+          socket.leave(roomId);
+
+          getUpdatedUsersList();
+        }
+      } catch (error) {
+        logger.debug(error);
+      }
+    }
+  );
 });
 
 app.get("/", (req, res) => {
