@@ -1,13 +1,17 @@
 import React, { ReactElement, useRef } from "react";
 import { Button } from "react-bootstrap";
 import "./lobbyInfo.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import MemberCard from "../../../MemberCard/MemberCard";
 import LobbyHeader from "./LobbyHeader/LobbyHeader";
 import { getLobbyState, getUserState } from "../../../../redux/store/selectors";
 import { Role } from "../../../../shared/globalVariables";
+import { leaveFromRoom } from "../../../../redux/store/thunk-creators/lobby";
 
 const LobbyInfo = (): ReactElement => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { roomId } = useSelector(getLobbyState);
   const { users } = useSelector(getUserState);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -20,6 +24,10 @@ const LobbyInfo = (): ReactElement => {
       document.execCommand("copy");
       inputRef.current.blur();
     }
+  };
+
+  const leaveRoom = (): void => {
+    dispatch(leaveFromRoom(roomId, history));
   };
 
   return (
@@ -48,7 +56,9 @@ const LobbyInfo = (): ReactElement => {
       </div>
       <div className="lobby-info__controls">
         <Button variant="primary">Start Game</Button>
-        <Button variant="light">Cancel Game</Button>
+        <Button onClick={leaveRoom} variant="light">
+          Cancel Game
+        </Button>
       </div>
     </div>
   );

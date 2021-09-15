@@ -1,16 +1,22 @@
 export interface ILobbyState {
-  roomName: string;
   roomId: string;
+  roomName: string;
 }
 
 export enum LobbyActionType {
-  SET_ROOM_ID = "SET_ROOM_ID",
+  SET_NEW_ROOM = "SET_NEW_ROOM",
   SET_ROOM_NAME = "SET_ROOM_NAME",
   UPDATE_ROOM_NAME = "UPDATE_ROOM_NAME",
+  REMOVE_ROOM_ID = "REMOVE_ROOM_ID",
+}
+
+interface IRemoveRoomID {
+  type: LobbyActionType.REMOVE_ROOM_ID;
+  payload: string;
 }
 
 interface ISetRoomId {
-  type: LobbyActionType.SET_ROOM_ID;
+  type: LobbyActionType.SET_NEW_ROOM;
   payload: string;
 }
 
@@ -24,7 +30,11 @@ interface IUpdateRoomName {
   payload: string;
 }
 
-export type LobbyAction = ISetRoomName | IUpdateRoomName | ISetRoomId;
+export type LobbyAction =
+  | ISetRoomName
+  | IUpdateRoomName
+  | ISetRoomId
+  | IRemoveRoomID;
 
 export interface LobbyReducer {
   lobby: ILobbyState;

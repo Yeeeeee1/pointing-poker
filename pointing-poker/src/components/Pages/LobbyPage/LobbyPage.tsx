@@ -20,11 +20,11 @@ const LobbyPage = (): ReactElement => {
 
   useEffect(() => {
     if (lobbyId) {
-      socket.emit(SocketEvent.UPDATE_ROOM, lobbyId, userData);
+      socket.emit(SocketEvent.UPDATE_STATE_ROOM, lobbyId, userData);
     }
 
     return () => {
-      socket.off(SocketEvent.UPDATE_ROOM);
+      socket.off(SocketEvent.UPDATE_STATE_ROOM);
     };
   }, [lobbyId]);
 
@@ -41,9 +41,12 @@ const LobbyPage = (): ReactElement => {
       dispatch(setUsers(users));
     });
 
-    socket.on(SocketEvent.GET_UPDATED_ROOM_NAME, (newRoomName: string) => {
-      dispatch(setRoomName(newRoomName));
-    });
+    socket.on(
+      SocketEvent.GET_UPDATED_ROOM_NAME,
+      (roomId: string, newRoomName: string) => {
+        dispatch(setRoomName(newRoomName));
+      }
+    );
 
     return () => {
       socket.off(SocketEvent.JOIN_NOTIFY);
