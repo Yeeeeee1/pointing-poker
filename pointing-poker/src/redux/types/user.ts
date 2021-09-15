@@ -16,8 +16,14 @@ export interface IUserState {
 }
 
 export enum UserActionType {
+  SET_USER = "SET_USER",
   SET_USERS = "SET_USERS",
   GET_USERS_SUCCESS = "GET_USERS_SUCCESS",
+}
+
+interface ISetUser {
+  type: UserActionType.SET_USER;
+  payload: User;
 }
 
 interface ISetUsers {
@@ -30,7 +36,7 @@ interface IGetUsersSuccess {
   payload: boolean;
 }
 
-export type UserAction = ISetUsers | IGetUsersSuccess;
+export type UserAction = ISetUsers | ISetUser | IGetUsersSuccess;
 
 export interface UserReducer {
   user: IUserState;

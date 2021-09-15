@@ -15,7 +15,7 @@ export enum SocketEvent {
   GET_UPDATED_ROOM_NAME = "get-updated-room-name",
   CONNECT = "connect",
   CREATE_ROOM = "create-room",
-  UPDATE_STATE_ROOM = "update-state-room",
+  UPDATE_USERS_LIST = "update-users-list",
   UPDATE_ROOM_NAME = "update-room-name",
   JOIN_ROOM = "join-room",
   JOIN_NOTIFY = "join-notify",

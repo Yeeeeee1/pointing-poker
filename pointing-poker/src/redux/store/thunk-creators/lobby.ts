@@ -3,6 +3,8 @@ import { History } from "history";
 import { ILobbyState, LobbyAction } from "../../types/lobby";
 import { removeRoomId, setNewRoom } from "../action-creators/lobby";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
+import { IRoom } from "../../../../../server/src/shared/interfaces/models";
+import setUser, { setUsers } from "../action-creators/user";
 
 export const createRoomAndGetRoomID =
   (history: History) =>
@@ -25,13 +27,15 @@ export const joinToRoomAndGetRoomID =
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
     const getResultOfConnection = (
       result: ConnectionResult,
-      data: string
+      data: IRoom
     ): void => {
       if (result === ConnectionResult.SUCCESS) {
-        dispatch(setNewRoom({ id: roomId, name: data }));
+        dispatch(setNewRoom(data));
+        dispatch(setUsers(data.users));
+
         history.push("/lobby");
       } else {
-        console.error(data);
+        console.error("join is fail"); // TODO: display an error to the user
       }
     };
 

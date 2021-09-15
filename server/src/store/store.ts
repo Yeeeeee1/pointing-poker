@@ -18,7 +18,7 @@ export const createNewRoom = (roomId: string): string => {
   return defaultRoomName;
 };
 
-export const joinNewUser = (roomId: string, newUser: IUser) => {
+export const joinNewUserToRoom = (roomId: string, newUser: IUser) => {
   const currentRoom = store.rooms.find((room) => room.id === roomId);
 
   const updatedRoom: IRoom = {

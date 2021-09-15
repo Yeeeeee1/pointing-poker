@@ -7,6 +7,8 @@ const initialState: IUserState = {
 
 const userReducer = (state = initialState, action: UserAction): IUserState => {
   switch (action.type) {
+    case UserActionType.SET_USER:
+      return { ...state, users: [...state.users, action.payload] };
     case UserActionType.SET_USERS:
       return { ...state, users: [...action.payload] };
     default:

@@ -7,10 +7,9 @@ import LobbyMembers from "./LobbyMembers/LobbyMembers";
 import LobbyIssues from "./LobbyIssues/LobbyIssues";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
 import { getAuthState, getLobbyState } from "../../../redux/store/selectors";
-import setUsers from "../../../redux/store/action-creators/user";
 import setRoomName from "../../../redux/store/action-creators/lobby";
-import { IRoom } from "../../../shared/interfaces/models";
 import { IUser } from "../../../../../server/src/shared/interfaces/models";
+import setUser from "../../../redux/store/action-creators/user";
 
 const LobbyPage = (): ReactElement => {
   const dispatch = useDispatch();
@@ -20,11 +19,11 @@ const LobbyPage = (): ReactElement => {
 
   useEffect(() => {
     if (lobbyId) {
-      socket.emit(SocketEvent.UPDATE_STATE_ROOM, lobbyId, userData);
+      socket.emit(SocketEvent.UPDATE_USERS_LIST, lobbyId, userData);
     }
 
     return () => {
-      socket.off(SocketEvent.UPDATE_STATE_ROOM);
+      socket.off(SocketEvent.UPDATE_USERS_LIST);
     };
   }, [lobbyId]);
 
@@ -37,8 +36,8 @@ const LobbyPage = (): ReactElement => {
       }, 3000);
     });
 
-    socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (users: IUser[]) => {
-      dispatch(setUsers(users));
+    socket.on(SocketEvent.GET_UPDATED_USERS_LIST, (user: IUser) => {
+      dispatch(setUser(user));
     });
 
     socket.on(
