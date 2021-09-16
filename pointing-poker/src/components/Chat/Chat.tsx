@@ -1,9 +1,4 @@
-import React, {
-  FormEvent,
-  MouseEventHandler,
-  ReactElement,
-  useState,
-} from "react";
+import React, { FormEvent, ReactElement, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Messages from "./Messages/Messages";
@@ -25,6 +20,7 @@ const Chat = (): ReactElement => {
 
   const sendMessage = (): void => {
     socket.emit(SocketEvent.SEND_MESSAGE, roomId, messageContent); // TODO: move out
+    updateMessageContent("");
   };
 
   const closeChat = (event: FormEvent) => {
