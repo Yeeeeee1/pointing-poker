@@ -1,0 +1,25 @@
+.chat {
+  display: grid;
+  position: fixed;
+  right: 0;
+  top: 80px;
+  z-index: 99;
+  row-gap: 0.15rem;
+
+  padding: 0.645rem;
+  box-shadow: 0 0 0.34rem 0.124rem rgba(0, 0, 0, 0.134);
+  background-color: #fff;
+
+  &Controls {
+    display: flex;
+  }
+
+  &Input {
+    resize: none;
+    height: 6.5rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

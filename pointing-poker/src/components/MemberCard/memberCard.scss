@@ -2,11 +2,13 @@
   position: relative;
   display: flex;
   align-items: center;
-  column-gap: 0.56rem;
-  box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
-  border-radius: 0.3rem;
-  padding: 0.3rem 0.4rem 0.3rem 0;
   z-index: 2;
+  padding: 0.3rem 0.4rem 0.3rem 0;
+  margin: 0;
+
+  box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
+  column-gap: 0.56rem;
+  border-radius: 0.3rem;
 
   &__image {
     display: flex;

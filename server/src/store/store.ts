@@ -11,6 +11,17 @@ export const createNewRoom = (roomId: string): string => {
     id: roomId,
     name: defaultRoomName,
     users: [],
+    messages: [
+      {
+        id: "123",
+        author: {
+          id: "123321",
+          firstName: "FirstName",
+          role: "participant",
+        },
+        content: "Hello, World!",
+      },
+    ],
   };
 
   store.rooms = [...store.rooms, newRoom];

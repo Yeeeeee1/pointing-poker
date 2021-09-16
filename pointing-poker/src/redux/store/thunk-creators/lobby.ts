@@ -5,6 +5,7 @@ import { removeRoomId, setNewRoom } from "../action-creators/lobby";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
 import { IRoom } from "../../../../../server/src/shared/interfaces/models";
 import setUser, { setUsers } from "../action-creators/user";
+import { setMessages } from "../action-creators/chat";
 
 export const createRoomAndGetRoomID =
   (history: History) =>
@@ -32,6 +33,7 @@ export const joinToRoomAndGetRoomID =
       if (result === ConnectionResult.SUCCESS) {
         dispatch(setNewRoom(data));
         dispatch(setUsers(data.users));
+        dispatch(setMessages(data.messages));
 
         history.push("/lobby");
       } else {

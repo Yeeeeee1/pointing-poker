@@ -15,10 +15,17 @@ export interface IUser {
   role: string;
 }
 
+export interface IMessage {
+  id: string;
+  author: IUser;
+  content: string;
+}
+
 export interface IRoom {
   id: string;
   name: string;
   users: IUser[];
+  messages: IMessage[];
 }
 
 export interface IStore {
