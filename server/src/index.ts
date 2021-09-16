@@ -67,7 +67,8 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
       roomId: string,
       notifyAboutConnect: (
         connectResult: ConnectResult,
-        data: IRoom | string
+        data: IRoom | string,
+        userId?: string
       ) => void
     ) => {
       try {
@@ -75,7 +76,7 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
 
         if (foundRoom) {
           socket.join(roomId);
-          notifyAboutConnect(ConnectResult.SUCCESS, foundRoom);
+          notifyAboutConnect(ConnectResult.SUCCESS, foundRoom, socket.id);
           return;
         }
 
@@ -138,15 +139,11 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
 
   socket.on(SocketEvent.SEND_MESSAGE, (roomId: string, message: string) => {
     try {
-      setMessage(socket.id, roomId, message);
+      const newMessage = setMessage(socket.id, roomId, message);
 
       logger.debug("asd", store.rooms);
 
-      io.to(roomId).emit("get-message", {
-        authorId: socket.id,
-        content: message,
-        id: "123",
-      });
+      io.to(roomId).emit("get-message", newMessage);
     } catch (error) {
       logger.debug(error);
     }

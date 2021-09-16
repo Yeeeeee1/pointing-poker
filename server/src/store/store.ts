@@ -1,4 +1,4 @@
-import { IRoom, IStore, IUser } from "../shared/interfaces/models";
+import { IMessage, IRoom, IStore, IUser } from "../shared/interfaces/models";
 
 const store: IStore = {
   rooms: [],
@@ -63,20 +63,29 @@ export const excludeUser = (roomId: string, userId: string): IUser[] => {
   return updatedUsers;
 };
 
-export const setMessage = (userId: string, roomId: string, message: string) => {
+export const setMessage = (
+  userId: string,
+  roomId: string,
+  messageContent: string
+): IMessage => {
   const foundRoom = getRoom(roomId);
+
+  const message = {
+    id: Date.now().toString(),
+    content: messageContent,
+    authorId: userId,
+  };
 
   const updatedRoom = {
     ...foundRoom,
-    messages: [
-      ...foundRoom.messages,
-      { id: Date.now().toString(), content: message, authorId: userId },
-    ],
+    messages: [...foundRoom.messages, message],
   };
 
   store.rooms = store.rooms.map((room) =>
     room.id === roomId ? updatedRoom : room
   );
+
+  return message;
 };
 
 export default store;

@@ -4,7 +4,7 @@ import { ILobbyState, LobbyAction } from "../../types/lobby";
 import { removeRoomId, setNewRoom } from "../action-creators/lobby";
 import { socket, SocketEvent } from "../../../shared/globalVariables";
 import { IRoom } from "../../../../../server/src/shared/interfaces/models";
-import setUser, { setUsers } from "../action-creators/user";
+import setUser, { setCurrentUser, setUsers } from "../action-creators/user";
 import { setMessages } from "../action-creators/chat";
 
 export const createRoomAndGetRoomID =
@@ -13,6 +13,7 @@ export const createRoomAndGetRoomID =
     const getRoomData = (roomName: string, createdRoomId: string): void => {
       dispatch(setNewRoom({ id: createdRoomId, name: roomName }));
       history.push("/lobby");
+      dispatch(setCurrentUser(createdRoomId));
     };
 
     socket.emit(SocketEvent.CREATE_ROOM, getRoomData);
@@ -28,12 +29,15 @@ export const joinToRoomAndGetRoomID =
   (dispatch: ThunkDispatch<ILobbyState, unknown, LobbyAction>) => {
     const getResultOfConnection = (
       result: ConnectionResult,
-      data: IRoom
+      data: IRoom,
+      userId: string
     ): void => {
       if (result === ConnectionResult.SUCCESS) {
         dispatch(setNewRoom(data));
         dispatch(setUsers(data.users));
         dispatch(setMessages(data.messages));
+        console.warn(userId);
+        dispatch(setCurrentUser(userId));
 
         history.push("/lobby");
       } else {

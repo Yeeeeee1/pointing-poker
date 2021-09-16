@@ -1,27 +1,14 @@
-import React, { FormEvent, ReactElement, useState } from "react";
+import React, { FormEvent, ReactElement } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Messages from "./Messages/Messages";
 import classes from "./chat.module.scss";
-import { getLobbyState } from "../../redux/store/selectors";
-import { socket, SocketEvent } from "../../shared/globalVariables";
 import toggleChatMode from "../../redux/store/action-creators/chat";
+import useChat from "../../shared/hooks/useChat";
 
 const Chat = (): ReactElement => {
   const dispatch = useDispatch();
-  const { roomId } = useSelector(getLobbyState);
-  const [messageContent, updateMessageContent] = useState("");
-
-  const handleTextarea = (event: FormEvent): void => {
-    const target = event.target as HTMLInputElement;
-
-    updateMessageContent(target.value);
-  };
-
-  const sendMessage = (): void => {
-    socket.emit(SocketEvent.SEND_MESSAGE, roomId, messageContent); // TODO: move out
-    updateMessageContent("");
-  };
+  const { messageContent, sendMessage, handleTextarea } = useChat();
 
   const closeChat = (event: FormEvent) => {
     event.preventDefault();
@@ -37,7 +24,13 @@ const Chat = (): ReactElement => {
         onClick={(event) => closeChat(event)}
       />
       <Messages />
-      <div className={classes.chatControls}>
+      <form
+        onSubmit={(event) => {
+          sendMessage();
+          event.preventDefault();
+        }}
+        className={classes.chatControls}
+      >
         <Form.Control
           className={classes.chatInput}
           name="chat"
@@ -46,12 +39,11 @@ const Chat = (): ReactElement => {
           onInput={(event) => handleTextarea(event)}
           placeholder="Type your message"
           as="textarea"
-          rows={3}
         />
-        <Button onClick={sendMessage} variant="primary">
+        <Button type="submit" variant="primary">
           Send
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
