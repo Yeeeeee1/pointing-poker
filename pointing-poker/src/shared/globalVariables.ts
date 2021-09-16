@@ -1,8 +1,11 @@
 import { io } from "socket.io-client";
+import dotenv from "dotenv";
 import MainPage from "../components/Pages/MainPage/MainPage";
 import LobbyPage from "../components/Pages/LobbyPage/LobbyPage";
 import GamePage from "../components/Pages/GamePage/GamePage";
 import ErrorPage from "../components/Pages/ErrorPage/ErrorPage";
+
+dotenv.config();
 
 export enum RoutePath {
   ROOT = "/",
@@ -68,6 +71,8 @@ const routes = [
   },
 ];
 
-export const socket = io("http://localhost:5000/");
+export const socket = io(
+  process.env.REACT_APP_SERVER_HOST || "http://localhost:5000/" // TODO: add server URL
+);
 
 export default routes;
