@@ -1,9 +1,7 @@
-import { User } from "./user";
-
 export interface IMessage {
   id: string;
   content: string;
-  author: User;
+  authorId: string;
 }
 
 export interface IChatState {
@@ -14,10 +12,16 @@ export interface IChatState {
 export enum ChatActionType {
   TOGGLE_CHAT_MODE = "TOGGLE_CHAT_MODE",
   SET_MESSAGES = "SET_MESSAGES",
+  SET_MESSAGE = "SET_MESSAGE",
 }
 
 interface IChat {
   type: ChatActionType.TOGGLE_CHAT_MODE;
+}
+
+interface IChatMessage {
+  type: ChatActionType.SET_MESSAGE;
+  payload: IMessage;
 }
 
 interface IChatMessages {
@@ -25,7 +29,7 @@ interface IChatMessages {
   payload: IMessage[];
 }
 
-export type ChatAction = IChat | IChatMessages;
+export type ChatAction = IChat | IChatMessage | IChatMessages;
 
 export interface ChatReducer {
   chat: IChatState;

@@ -2,6 +2,7 @@ const PORT = process.env.PORT || 5000;
 export default PORT;
 
 export enum SocketEvent {
+  SEND_MESSAGE = "send-message",
   CONNECTION = "connection",
   GET_UPDATED_ROOM_NAME = "get-updated-room-name",
   CREATE_ROOM = "create-room",

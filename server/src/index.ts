@@ -10,6 +10,7 @@ import store, {
   getRoom,
   joinNewUserToRoom,
   removeRoom,
+  setMessage,
   updateRoomName,
 } from "./store/store";
 import { ConnectResult, IRoom, IUser } from "./shared/interfaces/models";
@@ -134,6 +135,22 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
       }
     }
   );
+
+  socket.on(SocketEvent.SEND_MESSAGE, (roomId: string, message: string) => {
+    try {
+      setMessage(socket.id, roomId, message);
+
+      logger.debug("asd", store.rooms);
+
+      io.to(roomId).emit("get-message", {
+        authorId: socket.id,
+        content: message,
+        id: "123",
+      });
+    } catch (error) {
+      logger.debug(error);
+    }
+  });
 });
 
 app.get("/", (req, res) => {

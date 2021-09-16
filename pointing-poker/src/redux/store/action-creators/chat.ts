@@ -10,4 +10,9 @@ export const setMessages =
     dispatch({ type: ChatActionType.SET_MESSAGES, payload });
   };
 
+export const setMessage =
+  (payload: IMessage) => (dispatch: Dispatch<ChatAction>) => {
+    dispatch({ type: ChatActionType.SET_MESSAGE, payload });
+  };
+
 export default toggleChatMode;

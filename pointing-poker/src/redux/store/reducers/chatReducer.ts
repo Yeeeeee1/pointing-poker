@@ -11,6 +11,8 @@ const chatReducer = (state = initialState, action: ChatAction): IChatState => {
       return { ...state, isOpenChat: !state.isOpenChat };
     case ChatActionType.SET_MESSAGES:
       return { ...state, messages: [...action.payload] };
+    case ChatActionType.SET_MESSAGE:
+      return { ...state, messages: [...state.messages, action.payload] };
     default:
       return state;
   }

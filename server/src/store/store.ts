@@ -14,11 +14,7 @@ export const createNewRoom = (roomId: string): string => {
     messages: [
       {
         id: "123",
-        author: {
-          id: "123321",
-          firstName: "FirstName",
-          role: "participant",
-        },
+        authorId: "sads",
         content: "Hello, World!",
       },
     ],
@@ -71,6 +67,22 @@ export const excludeUser = (roomId: string, userId: string): IUser[] => {
   );
 
   return updatedUsers;
+};
+
+export const setMessage = (userId: string, roomId: string, message: string) => {
+  const foundRoom = getRoom(roomId);
+
+  const updatedRoom = {
+    ...foundRoom,
+    messages: [
+      ...foundRoom.messages,
+      { id: Date.now().toString(), content: message, authorId: userId },
+    ],
+  };
+
+  store.rooms = store.rooms.map((room) =>
+    room.id === roomId ? updatedRoom : room
+  );
 };
 
 export default store;

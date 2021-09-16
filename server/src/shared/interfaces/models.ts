@@ -17,7 +17,7 @@ export interface IUser {
 
 export interface IMessage {
   id: string;
-  author: IUser;
+  authorId: string;
   content: string;
 }
 

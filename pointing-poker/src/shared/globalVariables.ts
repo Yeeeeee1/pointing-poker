@@ -15,6 +15,7 @@ export enum RoutePath {
 }
 
 export enum SocketEvent {
+  SEND_MESSAGE = "send-message",
   GET_UPDATED_ROOM_NAME = "get-updated-room-name",
   CONNECT = "connect",
   CREATE_ROOM = "create-room",

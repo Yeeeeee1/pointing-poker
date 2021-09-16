@@ -1,13 +1,16 @@
 .message {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   align-items: flex-start;
   column-gap: 1.3rem;
 
   &Content {
     padding: 0.65rem 0 0.75rem 0.85rem;
+    max-width: 20rem;
   }
 
   &Author {
+    height: 100%;
     border-left: 1px solid rgba(#3a3a3a, 0.22);
     padding: 0.65rem 0.85rem 0.75rem 1rem;
   }
