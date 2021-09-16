@@ -6,7 +6,8 @@
 
   &Content {
     padding: 0.65rem 0 0.75rem 0.85rem;
-    max-width: 20rem;
+    max-width: 25rem;
+    word-break: break-all;
   }
 
   &Author {
