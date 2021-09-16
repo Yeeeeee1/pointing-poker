@@ -1,14 +1,23 @@
-import React, { ReactElement, useState } from "react";
-import EditImage from "../../../../../assets/images/edit-icon.svg";
+import React, { ReactElement, useEffect, useState } from "react";
 import "./lobbyHeader.scss";
+import { useDispatch, useSelector } from "react-redux";
 import hidePartOfText from "../../../../../shared/helperFunctions/hidePartOfText";
+import { socket, SocketEvent } from "../../../../../shared/globalVariables";
+import { getLobbyState } from "../../../../../redux/store/selectors";
+import { updateRoomName } from "../../../../../redux/store/action-creators/lobby";
+import EditImage from "../../../../../assets/images/edit-icon.svg";
 
 const LobbyHeader = (): ReactElement => {
-  const [lobbyName, updateLobbyName] = useState("Spring 23");
+  const dispatch = useDispatch();
+  const { roomName, roomId } = useSelector(getLobbyState);
   const [isEditLobbyName, toggleIsEditLobbyName] = useState(false);
 
+  useEffect(() => {
+    socket.emit(SocketEvent.UPDATE_ROOM_NAME, roomId, roomName);
+  }, [roomName]);
+
   const handleInput = (inputElement: EventTarget): void => {
-    updateLobbyName((inputElement as HTMLInputElement).value);
+    dispatch(updateRoomName((inputElement as HTMLInputElement).value));
   };
 
   return (
@@ -16,11 +25,11 @@ const LobbyHeader = (): ReactElement => {
       {isEditLobbyName ? (
         <input
           type="text"
-          value={lobbyName}
+          value={roomName}
           onInput={({ target }) => handleInput(target)}
         />
       ) : (
-        <h3 className="lobby__title">{hidePartOfText(lobbyName, 40)}</h3>
+        <h3 className="lobby__title">{hidePartOfText(roomName, 40)}</h3>
       )}
       <button
         className="lobby-header__button"

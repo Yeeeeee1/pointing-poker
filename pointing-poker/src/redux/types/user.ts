@@ -1,18 +1,34 @@
+import { UserAvatar } from "../../shared/interfaces/models";
+
+export interface User {
+  id: string;
+  firstName: string;
+  role: string;
+  lastName?: string;
+  jobPosition?: string;
+  userAvatar?: UserAvatar;
+  isObserver?: boolean;
+}
+
 export interface IUserState {
-  users: string[];
+  users: User[];
   loading: boolean;
-  cards: number[];
 }
 
 export enum UserActionType {
-  GET_USERS = "GET_USERS",
+  SET_USER = "SET_USER",
+  SET_USERS = "SET_USERS",
   GET_USERS_SUCCESS = "GET_USERS_SUCCESS",
-  GET_CARDS = "GET_CARDS",
 }
 
-interface IGetUsers {
-  type: UserActionType.GET_USERS;
-  payload: string[];
+interface ISetUser {
+  type: UserActionType.SET_USER;
+  payload: User;
+}
+
+interface ISetUsers {
+  type: UserActionType.SET_USERS;
+  payload: User[];
 }
 
 interface IGetUsersSuccess {
@@ -20,9 +36,8 @@ interface IGetUsersSuccess {
   payload: boolean;
 }
 
-interface IGetCards {
-  type: UserActionType.GET_CARDS;
-  payload: number[];
-}
+export type UserAction = ISetUsers | ISetUser | IGetUsersSuccess;
 
-export type UserAction = IGetUsers | IGetUsersSuccess | IGetCards;
+export interface UserReducer {
+  user: IUserState;
+}
