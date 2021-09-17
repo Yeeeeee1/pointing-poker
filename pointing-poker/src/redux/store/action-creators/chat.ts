@@ -1,5 +1,10 @@
 import { Dispatch } from "react";
-import { ChatAction, ChatActionType, IMessage } from "../../types/chat";
+import {
+  ChatAction,
+  ChatActionType,
+  IMessage,
+  IMessageWithAuthor,
+} from "../../types/chat";
 
 const toggleChatMode = () => (dispatch: Dispatch<ChatAction>) => {
   dispatch({ type: ChatActionType.TOGGLE_CHAT_MODE });

@@ -14,7 +14,7 @@ const useChat = () => {
   };
 
   const sendMessage = (): void => {
-    socket.emit(SocketEvent.SEND_MESSAGE, roomId, messageContent);
+    socket.emit(SocketEvent.MESSAGE_SEND, roomId, messageContent);
 
     updateMessageContent("");
   };

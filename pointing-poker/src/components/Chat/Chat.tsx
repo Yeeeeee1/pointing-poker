@@ -24,7 +24,7 @@ const Chat = (): ReactElement => {
         onClick={(event) => closeChat(event)}
       />
       <Messages />
-      <form
+      <Form
         onSubmit={(event) => {
           sendMessage();
           event.preventDefault();
@@ -43,7 +43,7 @@ const Chat = (): ReactElement => {
         <Button type="submit" variant="primary">
           Send
         </Button>
-      </form>
+      </Form>
     </div>
   );
 };

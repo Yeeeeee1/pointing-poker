@@ -13,7 +13,7 @@ const LobbyHeader = (): ReactElement => {
   const [isEditLobbyName, toggleIsEditLobbyName] = useState(false);
 
   useEffect(() => {
-    socket.emit(SocketEvent.UPDATE_ROOM_NAME, roomId, roomName);
+    socket.emit(SocketEvent.ROOM_UPDATE_NAME, roomId, roomName);
   }, [roomName]);
 
   const handleInput = (inputElement: EventTarget): void => {

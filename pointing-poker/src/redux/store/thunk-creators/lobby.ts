@@ -6,6 +6,7 @@ import { socket, SocketEvent } from "../../../shared/globalVariables";
 import { IRoom } from "../../../../../server/src/shared/interfaces/models";
 import setUser, { setCurrentUser, setUsers } from "../action-creators/user";
 import { setMessages } from "../action-creators/chat";
+import { ConnectionResult } from "../../../shared/interfaces/models";
 
 export const createRoomAndGetRoomID =
   (history: History) =>
@@ -16,13 +17,8 @@ export const createRoomAndGetRoomID =
       dispatch(setCurrentUser(createdRoomId));
     };
 
-    socket.emit(SocketEvent.CREATE_ROOM, getRoomData);
+    socket.emit(SocketEvent.ROOM_CREATE, getRoomData);
   };
-
-export enum ConnectionResult {
-  ERROR = "error",
-  SUCCESS = "success",
-}
 
 export const joinToRoomAndGetRoomID =
   (roomId: string, history: History) =>
@@ -45,7 +41,7 @@ export const joinToRoomAndGetRoomID =
       }
     };
 
-    socket.emit(SocketEvent.JOIN_ROOM, roomId, getResultOfConnection);
+    socket.emit(SocketEvent.ROOM_JOIN, roomId, getResultOfConnection);
   };
 
 export const leaveFromRoom =
@@ -54,8 +50,6 @@ export const leaveFromRoom =
     const disconnect = () => {
       dispatch(removeRoomId());
       history.push("/");
-
-      // TODO: notify about error
     };
 
     socket.emit(SocketEvent.LEAVE_ROOM, roomId, disconnect);

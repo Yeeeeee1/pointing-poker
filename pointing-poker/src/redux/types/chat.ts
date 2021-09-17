@@ -1,7 +1,15 @@
+import { User } from "./user";
+
 export interface IMessage {
   id: string;
   content: string;
   authorId: string;
+}
+
+export interface IMessageWithAuthor {
+  id: string;
+  content: string;
+  author: User;
 }
 
 export interface IChatState {

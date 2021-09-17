@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import { IMessage } from "./redux/types/chat";
 import { setMessage } from "./redux/store/action-creators/chat";
+import setNewMessage from "./redux/store/thunk-creators/chat";
 
 function App(): ReactElement {
   const { isOpenChat } = useSelector(getChatState);
@@ -19,12 +20,12 @@ function App(): ReactElement {
       console.info("Connection success", socket.id);
     });
 
-    socket.on("get-message", (message: IMessage) => {
-      dispatch(setMessage(message));
+    socket.on(SocketEvent.MESSAGE_SEND, (message: IMessage) => {
+      dispatch(setNewMessage(message));
     });
 
     return () => {
-      socket.off("get-message");
+      socket.off(SocketEvent.MESSAGE_SEND);
       socket.off(SocketEvent.CONNECT);
     };
   }, []);

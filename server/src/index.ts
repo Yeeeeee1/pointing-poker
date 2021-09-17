@@ -33,21 +33,17 @@ app.use(cors());
 io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   const changeRoomName = () => {
     socket.on(
-      SocketEvent.UPDATE_ROOM_NAME,
+      SocketEvent.ROOM_UPDATE_NAME,
       (roomId: string, newRoomName: string) => {
         updateRoomName(roomId, newRoomName);
 
-        io.to(roomId).emit(
-          SocketEvent.GET_UPDATED_ROOM_NAME,
-          roomId,
-          newRoomName
-        );
+        io.to(roomId).emit(SocketEvent.ROOM_UPDATE_NAME, roomId, newRoomName);
       }
     );
   };
 
   socket.on(
-    SocketEvent.CREATE_ROOM,
+    SocketEvent.ROOM_CREATE,
     (notifyAboutSuccess: (roomName: string, createdRoomId: string) => void) => {
       try {
         const roomName = createNewRoom(socket.id);
@@ -62,7 +58,7 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   );
 
   socket.on(
-    SocketEvent.JOIN_ROOM,
+    SocketEvent.ROOM_JOIN,
     (
       roomId: string,
       notifyAboutConnect: (
@@ -137,13 +133,11 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
     }
   );
 
-  socket.on(SocketEvent.SEND_MESSAGE, (roomId: string, message: string) => {
+  socket.on(SocketEvent.MESSAGE_SEND, (roomId: string, message: string) => {
     try {
       const newMessage = setMessage(socket.id, roomId, message);
 
-      logger.debug("asd", store.rooms);
-
-      io.to(roomId).emit("get-message", newMessage);
+      io.to(roomId).emit(SocketEvent.MESSAGE_SEND, newMessage);
     } catch (error) {
       logger.debug(error);
     }

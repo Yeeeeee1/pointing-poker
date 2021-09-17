@@ -45,7 +45,7 @@ const LobbyPage = (): ReactElement => {
     });
 
     socket.on(
-      SocketEvent.GET_UPDATED_ROOM_NAME,
+      SocketEvent.ROOM_UPDATE_NAME,
       (roomId: string, newRoomName: string) => {
         dispatch(setRoomName(newRoomName));
       }
@@ -55,7 +55,7 @@ const LobbyPage = (): ReactElement => {
       socket.off(SocketEvent.GET_NEW_USER);
       socket.off(SocketEvent.JOIN_NOTIFY);
       socket.off(SocketEvent.GET_UPDATED_USERS_LIST); // TODO: move out
-      socket.off(SocketEvent.GET_UPDATED_ROOM_NAME); // TODO: move out
+      socket.off(SocketEvent.ROOM_UPDATE_NAME); // TODO: move out
     };
   }, []);
 
