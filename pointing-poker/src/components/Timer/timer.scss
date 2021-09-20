@@ -20,3 +20,18 @@
     color: #3a3a3a;
   }
 }
+
+.run-time {
+  &__timer {
+    display: flex;
+  }
+
+  &__color {
+    font-size: 40px;
+  }
+
+  &__btns {
+    display: flex;
+  }
+}
+
