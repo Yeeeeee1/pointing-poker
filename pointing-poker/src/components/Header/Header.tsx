@@ -1,13 +1,19 @@
 import React, { ReactElement } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import Logo from "../../shared/BaseComponents/Logo/Logo";
-import "./header.scss";
-
+import { useDispatch } from "react-redux";
 import ChatButton from "../../assets/images/chat-icon.svg";
 import { RoutePath } from "../../shared/globalVariables";
+import toggleChatMode from "../../redux/store/action-creators/chat";
+import "./header.scss";
+import Logo from "../../shared/BaseComponents/Logo/Logo";
 
 const Header = (): ReactElement => {
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
+
+  const toggleChat = () => {
+    dispatch(toggleChatMode());
+  };
 
   return (
     <header className="header">
@@ -20,7 +26,11 @@ const Header = (): ReactElement => {
         <Logo />
       </NavLink>
       {(pathname === RoutePath.GAME || pathname === RoutePath.LOBBY) && (
-        <button className="header__chat-button" type="button">
+        <button
+          onClick={toggleChat}
+          className="header__chat-button"
+          type="button"
+        >
           <img src={ChatButton} alt="chat button" />
         </button>
       )}

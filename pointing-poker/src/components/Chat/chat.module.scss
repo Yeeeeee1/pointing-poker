@@ -1,0 +1,78 @@
+.chat {
+  position: relative;
+  display: grid;
+  position: fixed;
+  right: 0;
+  top: 80px;
+  z-index: 99;
+  row-gap: 0.15rem;
+
+  padding: 0.645rem;
+  box-shadow: 0 0 0.34rem 0.124rem rgba(0, 0, 0, 0.134);
+  background-color: #fff;
+
+  &Close {
+    position: absolute;
+    left: -1.25rem;
+    top: -2.5rem;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    z-index: 1;
+    margin: 20px auto;
+    cursor: pointer;
+
+    &::before, &::after {
+      position: absolute;
+      transition: all 0.3s cubic-bezier(0.77, 0, 0.2, 0.85);
+
+    }
+
+    &::before {
+      content: '+';
+      color: #337ab7;
+      z-index: 2;
+      transform: rotate(45deg);
+      font-size: 50px;
+      line-height: 1;
+      top: -9px;
+      left: 6px;
+    }
+
+    &::after {
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      background-color: #fff;
+      border: 1px solid rgba(0,0,0, 20%);
+      z-index: 1;
+    }
+
+    &:hover::after {
+      transform: scale(1);
+      background-color: #337ab7;
+    }
+
+    &:hover::before {
+      transform: scale(0.8) rotate(45deg);
+      color: #fff;
+    }
+  }
+
+  &Controls {
+    display: flex;
+  }
+
+  &Input {
+    resize: none;
+    height: 6.5rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import store, {
   getRoom,
   joinNewUserToRoom,
   removeRoom,
+  setMessage,
   updateRoomName,
 } from "./store/store";
 import { ConnectResult, IRoom, IUser } from "./shared/interfaces/models";
@@ -32,21 +33,17 @@ app.use(cors());
 io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   const changeRoomName = () => {
     socket.on(
-      SocketEvent.UPDATE_ROOM_NAME,
+      SocketEvent.ROOM_UPDATE_NAME,
       (roomId: string, newRoomName: string) => {
         updateRoomName(roomId, newRoomName);
 
-        io.to(roomId).emit(
-          SocketEvent.GET_UPDATED_ROOM_NAME,
-          roomId,
-          newRoomName
-        );
+        io.to(roomId).emit(SocketEvent.ROOM_UPDATE_NAME, roomId, newRoomName);
       }
     );
   };
 
   socket.on(
-    SocketEvent.CREATE_ROOM,
+    SocketEvent.ROOM_CREATE,
     (notifyAboutSuccess: (roomName: string, createdRoomId: string) => void) => {
       try {
         const roomName = createNewRoom(socket.id);
@@ -61,12 +58,13 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
   );
 
   socket.on(
-    SocketEvent.JOIN_ROOM,
+    SocketEvent.ROOM_JOIN,
     (
       roomId: string,
       notifyAboutConnect: (
         connectResult: ConnectResult,
-        data: IRoom | string
+        data: IRoom | string,
+        userId?: string
       ) => void
     ) => {
       try {
@@ -74,7 +72,7 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
 
         if (foundRoom) {
           socket.join(roomId);
-          notifyAboutConnect(ConnectResult.SUCCESS, foundRoom);
+          notifyAboutConnect(ConnectResult.SUCCESS, foundRoom, socket.id);
           return;
         }
 
@@ -134,6 +132,16 @@ io.on(SocketEvent.CONNECTION, (socket: Socket) => {
       }
     }
   );
+
+  socket.on(SocketEvent.MESSAGE_SEND, (roomId: string, message: string) => {
+    try {
+      const newMessage = setMessage(socket.id, roomId, message);
+
+      io.to(roomId).emit(SocketEvent.MESSAGE_SEND, newMessage);
+    } catch (error) {
+      logger.debug(error);
+    }
+  });
 });
 
 app.get("/", (req, res) => {

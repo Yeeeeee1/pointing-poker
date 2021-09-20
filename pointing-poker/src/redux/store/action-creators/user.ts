@@ -10,4 +10,9 @@ export const setUsers =
     dispatch({ type: UserActionType.SET_USERS, payload });
   };
 
+export const setCurrentUser =
+  (payload: string) => (dispatch: Dispatch<UserAction>) => {
+    dispatch({ type: UserActionType.SET_CURRENT_USER, payload });
+  };
+
 export default setUser;

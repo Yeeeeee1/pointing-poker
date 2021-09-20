@@ -1,13 +1,17 @@
 import { User } from "../../redux/types/user";
+import { IMessage } from "../../redux/types/chat";
 
 export interface IMemberCard {
   member: User;
 }
 
-export interface IRoom {
-  name: string;
-  id: string;
-  users: User[];
+export interface IMessageProps {
+  message: IMessage;
+}
+
+export enum ConnectionResult {
+  ERROR = "error",
+  SUCCESS = "success",
 }
 
 export interface IIssue {

@@ -15,12 +15,12 @@ export enum RoutePath {
 }
 
 export enum SocketEvent {
-  GET_UPDATED_ROOM_NAME = "get-updated-room-name",
   CONNECT = "connect",
-  CREATE_ROOM = "create-room",
+  MESSAGE_SEND = "message:send",
+  ROOM_JOIN = "room:join",
+  ROOM_CREATE = "room:create",
+  ROOM_UPDATE_NAME = "room:update-name",
   UPDATE_USERS_LIST = "update-users-list",
-  UPDATE_ROOM_NAME = "update-room-name",
-  JOIN_ROOM = "join-room",
   JOIN_NOTIFY = "join-notify",
   LEAVE_ROOM = "leave-room",
   GET_NEW_USER = "get-new-user",
