@@ -32,3 +32,8 @@ export interface IMember {
 export interface IMembersListProps {
   members: IMember[];
 }
+
+export interface ITimerCard {
+  timeType: string;
+  value: number;
+}

@@ -1,18 +1,17 @@
 import React, { ReactElement } from "react";
 import "./timer.scss";
-import createDefaultCardImage from "../../shared/helperFunctions/createDefaultCardImage";
-import { IMemberCard } from "../../shared/interfaces/models";
+import { ITimerCard } from "../../shared/interfaces/models";
 
-const Timer = (cardInfo: IMemberCard): ReactElement => {
-  const { name, position, logo } = cardInfo;
+const Timer = (timerInfo: ITimerCard): ReactElement => {
+  const { timeType, value } = timerInfo;
 
   return (
-    <figure className="timer-card">
-      <figcaption>
-        <h6 className="timer-card__title">{name}</h6>
-        {position && <p className="timer-card__position">{position}</p>}
-      </figcaption>
-    </figure>
+    <div className="timer-card">
+      <div>
+        <h6 className="timer-card__title">{timeType}</h6>
+        <p className="timer-card__position">{value}</p>
+      </div>
+    </div>
   );
 };
 export default Timer;

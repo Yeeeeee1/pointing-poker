@@ -28,9 +28,9 @@ const GamePage: FC = () => {
           <GamePageIssues/>
           <div className="game-page__run-time">
             <div className="run-time__timer">
-              <Timer name='Minuts' position='5'/>
+              <Timer timeType='Minuts' value={5}/>
               <div className='run-time__color'>:</div>
-              <Timer name='Seconds' position='45'/>
+              <Timer timeType='Seconds' value={45}/>
             </div>
             <div className="run-time__btns">
               <Button variant='primary'>Run Round</Button>
