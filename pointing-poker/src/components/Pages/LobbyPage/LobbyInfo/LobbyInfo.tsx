@@ -1,17 +1,33 @@
 import React, { ReactElement, useRef } from "react";
 import { Button } from "react-bootstrap";
 import "./lobbyInfo.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import MemberCard from "../../../MemberCard/MemberCard";
 import LobbyHeader from "./LobbyHeader/LobbyHeader";
+import { getLobbyState, getUserState } from "../../../../redux/store/selectors";
+import { Role } from "../../../../shared/globalVariables";
+import { leaveFromRoom } from "../../../../redux/store/thunk-creators/lobby";
 
 const LobbyInfo = (): ReactElement => {
-  const inputRef = useRef<any>(null);
-  const url = "https://smth-url/asd/asf/sf/asfasfasfasfasfasfasfasfasfas";
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { roomId } = useSelector(getLobbyState);
+  const { users } = useSelector(getUserState);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const admin = users.find((user) => user.role === Role.ADMIN);
 
   const copyURL = (): void => {
-    inputRef.current.select();
-    document.execCommand("copy");
-    inputRef.current.blur();
+    if (inputRef.current) {
+      inputRef.current.select();
+      document.execCommand("copy");
+      inputRef.current.blur();
+    }
+  };
+
+  const leaveRoom = (): void => {
+    dispatch(leaveFromRoom(roomId, history));
   };
 
   return (
@@ -19,18 +35,19 @@ const LobbyInfo = (): ReactElement => {
       <LobbyHeader />
       <div>
         <h5 className="lobby-info__title">Scram master:</h5>
-        <MemberCard name="Alex" position="lead software engineer" />
+        TODO: refactor
+        {admin && <MemberCard member={admin} />}
         <p className="lobby-info__title">Link to lobby:</p>
         <div className="lobby-info__copy-link">
           <input
             ref={inputRef}
             className="lobby-info__input"
             type="text"
-            value={url}
+            value={roomId}
           />
           <Button
             className="lobby-info__button"
-            onClick={() => copyURL()}
+            onClick={copyURL}
             variant="primary"
           >
             copy
@@ -39,7 +56,9 @@ const LobbyInfo = (): ReactElement => {
       </div>
       <div className="lobby-info__controls">
         <Button variant="primary">Start Game</Button>
-        <Button variant="light">Cancel Game</Button>
+        <Button onClick={leaveRoom} variant="light">
+          Cancel Game
+        </Button>
       </div>
     </div>
   );

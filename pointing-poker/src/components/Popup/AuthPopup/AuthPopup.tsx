@@ -2,6 +2,7 @@ import React, { ChangeEvent, ReactElement, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { History } from "history";
 import classes from "./AuthPopup.module.scss";
 import PopupOverlay from "../PopupOverlay";
 import {
@@ -13,12 +14,17 @@ import {
   initAuthFormErrors,
   initFormValue,
 } from "../../../shared/globalVariables";
-import toggleAuthMode from "../../../redux/store/action-creators/auth";
-import getAuthState from "../../../redux/store/selectors";
+import toggleAuthMode, {
+  setFormData,
+} from "../../../redux/store/action-creators/auth";
+import { getAuthState } from "../../../redux/store/selectors";
 import validateEnteredValue from "../../../shared/helperFunctions/validateEnteredValue";
 
-const AuthPopup = (): ReactElement => {
-  const history = useHistory();
+export interface IAuthPopup {
+  connect: (history: History) => void;
+}
+const AuthPopup = ({ connect }: IAuthPopup): ReactElement => {
+  const history = useHistory<History>();
   const dispatch = useDispatch();
   const { isOpenAuthPopup } = useSelector(getAuthState);
   const [formFields, updateFormFields] = useState<AuthFormData>(initFormValue);
@@ -78,11 +84,13 @@ const AuthPopup = (): ReactElement => {
       userAvatar,
       isObserver,
     };
-    // TODO: implement request
 
+    dispatch(setFormData(formData));
+
+    connect(history);
+
+    // history.push("/lobby");
     closePopup();
-
-    history.push("/lobby");
   };
 
   return (

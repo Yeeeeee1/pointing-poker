@@ -5,9 +5,9 @@ import { IMembersListProps } from "../../../../../shared/interfaces/models";
 
 const MembersList = ({ members }: IMembersListProps): ReactElement => (
   <ul className="members-list">
-    {members.map(({ name, position, logo, id }) => (
-      <li key={id.toString()}>
-        <Member name={name} position={position} logo={logo} />
+    {members.map((member) => (
+      <li key={member.id}>
+        <Member member={member} />
       </li>
     ))}
   </ul>
