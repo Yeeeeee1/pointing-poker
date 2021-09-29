@@ -1,0 +1,37 @@
+.timer-card {
+  width: 50px;
+  // position: relative;
+  display: flex;
+  align-items: center;
+  column-gap: 0.56rem;
+  box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.4rem 0.3rem 0;
+  // z-index: 2;
+
+  &__title {
+    font-size: 0.69rem;
+    font-weight: 300;
+  }
+
+  &__position {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #3a3a3a;
+  }
+}
+
+.run-time {
+  &__timer {
+    display: flex;
+  }
+
+  &__color {
+    font-size: 40px;
+  }
+
+  &__btns {
+    display: flex;
+  }
+}
+

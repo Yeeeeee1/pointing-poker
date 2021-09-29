@@ -37,3 +37,8 @@ export interface IIssueProps {
 export interface IMembersListProps {
   members: User[];
 }
+
+export interface ITimerCard {
+  timeType: string;
+  value: number;
+}
