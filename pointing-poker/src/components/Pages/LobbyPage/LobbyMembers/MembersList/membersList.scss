@@ -1,0 +1,7 @@
+.members-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.32rem;
+  padding: 0;
+  list-style: none;
+}

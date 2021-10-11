@@ -1,0 +1,25 @@
+.lobby-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    transition: .2s;
+    transform-origin: center;
+
+    &:hover {
+      filter: brightness(0.8);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.main-page-logo {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .main-page-logo {
+        width: 20rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-page-logo {
+        width: 14rem;
+    }
+}
+
+.line, .card-part, .text {
+    transition: 0.3s;
+}
+
+.line {
+    transform-origin: center;
+}
+
+.main-page-logo:hover .line {
+    transform: rotate(15.3deg) translateY(-0.75rem);
+    stroke-width: 3;
+}
+
+.main-page-logo:hover .card-part {
+    transform: scale(1.06);
+}
+
+.main-page-logo:hover .text {
+    transform: translateX(0.3rem);
+}

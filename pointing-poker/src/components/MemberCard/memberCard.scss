@@ -1,0 +1,38 @@
+.member-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  padding: 0.3rem 0.4rem 0.3rem 0;
+  margin: 0;
+
+  box-shadow: 0 0.078rem 0.1rem 0.1rem rgba(0, 0, 0, 0.112);
+  column-gap: 0.56rem;
+  border-radius: 0.3rem;
+
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 0.34rem #fff solid;
+    box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3) inset;
+
+    &_default {
+      background-color: salmon;
+    }
+  }
+
+  &__title {
+    font-size: 1.35rem;
+    font-weight: 300;
+  }
+
+  &__position {
+    font-size: 0.69rem;
+    font-weight: 400;
+    color: #3a3a3a;
+  }
+}

@@ -1,0 +1,36 @@
+.member {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  width: 15rem;
+
+  &__button {
+    position: relative;
+    z-index: 1;
+
+    border: none;
+    background-color: #707070;
+    border-right: #7c7c7c;
+    border-top: #7c7c7c;
+    border-bottom: #7c7c7c;
+    border-bottom-right-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
+    color: #fff;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: #818181;
+      box-shadow: 0.1rem 0.05rem 0.1rem 0.1rem rgba(0, 0, 0, 0.43);
+    }
+
+    &:active {
+      transform: scale(0.978);
+      transform-origin: bottom;
+      box-shadow: 0.05rem 0.03rem 0.1rem 0.1rem rgba(0, 0, 0, 0.36);
+    }
+  }
+}
