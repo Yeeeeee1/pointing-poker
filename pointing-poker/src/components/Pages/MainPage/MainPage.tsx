@@ -59,13 +59,13 @@ const MainPage = (): ReactElement => {
           <h2 className="main-page__title">Start your planning:</h2>
           <div className="main-page__controls-wrapper">
             <p>Create session: </p>
-            <Button
+            <Link to="lobby"><Button
               onClick={startNewGame}
               className="main-page__button"
               as="input"
               type="button"
               value="Start new game"
-            />
+                    /></Link>
           </div>
         </div>
         <div className="main-page__section">
